@@ -92,12 +92,13 @@ define("CONFIG_EMAIL_ADDRESSEE", ""); // 电子邮件收件人
 
 ## 使用
 
-使用的方法非常简单，且支持 GET 和 CLI 两种调用方式。
+使用的方法非常简单，支持 GET 和 CLI 两种调用方式。
 
-可用参数如下：
-* **name**: 域名解析的主机名
-* **value**: 域名解析的记录值 可选值:ipv4、ipv6 （自动获取指定地址）
-* **update-rule**: 仅更新 OpenWrt 规则 接受值：true
+参数名       |可选值      |说明             |备注
+------------|-----------|-----------------|---
+name        |           |解析域名的主机名   |
+value       |ipv4 / ipv6|解析域名的记录值   |如果传递 ipv4 或 ipv6 则自动获取对应 IP
+update-rule |true       |仅更新 OpenWrt规则|
 
 #### 示例：
 
