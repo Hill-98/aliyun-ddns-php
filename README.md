@@ -38,7 +38,7 @@ cd AliDDNS
 composer install
 ```
 
-如果你没有安装 Composer，请[点击这里](https://github.com/Hill-98/aliyun-ddns-php/releases/download/latest/AliDDNS.zip)下载最新版本。
+如果你没有安装 Composer，请[点击这里](https://github.com/Hill-98/aliyun-ddns-php/releases/download/latest/aliyun-ddns-php.zip)下载最新版本。
 
 ## 配置
 
