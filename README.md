@@ -33,8 +33,8 @@ opkg install zoneinfo-core zoneinfo-asia # 安装时区数据库，如果你不�
 
 如果你安装了 Composer，直接克隆本存储库到本地，使用 Composer 安装依赖。
 ```
-git clone https://github.com/Hill-98/aliyun-ddns-php.git AliDDNS
-cd AliDDNS
+git clone https://github.com/Hill-98/aliyun-ddns-php.git /opt/AliDDNS
+cd /opt/AliDDNS
 composer install
 ```
 
@@ -52,11 +52,11 @@ composer install
 
 使用的方法非常简单，支持 GET 和 CLI 两种调用方式。
 
-参数名       |必须|可选值      |说明             |备注
-------------|:----:|-----------|-----------------|---
-name        |√   |           |解析域名的主机名   |
-value       |√   |ipv4 / ipv6|解析域名的记录值   |如果传递 ipv4 或 ipv6 则自动获取对应 IP
-update-rule |×   |true       |仅更新 OpenWrt规则|
+参数名       |必须  |可选值      |说明             |备注
+------------|:---:|-----------|-----------------|---
+name        |√    |           |解析域名的主机名   |
+value       |√    |ipv4 / ipv6|解析域名的记录值   |如果传递 ipv4 或 ipv6 则自动获取对应 IP
+update-rule |×    |true       |仅更新 OpenWrt规则|
 
 #### 示例：
 
