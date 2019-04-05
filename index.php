@@ -1,6 +1,17 @@
 <?php
 
 namespace AliDDNS;
+define("VERSION", "v2");
+if (!empty($argv[1]) && $argv[1] === "version") {
+    echo VERSION . PHP_EOL;
+    exit();
+}
+$running_filename = "running";
+if (file_exists($running_filename)) {
+    exit();
+} else {
+    file_put_contents($running_filename, $running_filename);
+}
 if (file_exists(__DIR__ . "/config.php")) {
     require_once __DIR__ . "/config.php";
 } else {
@@ -11,10 +22,10 @@ if (!empty(CONFIG_DEBUG)) {
     error_reporting(E_ERROR);
 }
 require_once __DIR__ . "/vendor/autoload.php";
-require_once __DIR__ . "/Log.php";
-require_once __DIR__ . "/AliDDNS.php";
-require_once __DIR__ . "/GetIP.php";
-require_once __DIR__ . "/Luci_RefreshRule.php";
+require_once __DIR__ . "/define.php";
+spl_autoload_register(function ($class_name) {
+    require_once __DIR__ . "/$class_name.php";
+});
 
 /**
  * 更新 OpenWrt 规则 快速调用函数
@@ -35,6 +46,19 @@ function Luci_RefreshRule(string $dest_ip, string $domain, string $family)
     } else {
         $log->send("Luci Refresh Rule failed: " . $lrr->error_msg, 3, true);
     }
+}
+
+/**
+ * 删除运行状态文件并退出脚本
+ * @param int $status 退出状态代码或文本
+ */
+function _exit($status = 0)
+{
+    global $running_filename;
+    while (file_exists($running_filename)) {
+        unlink($running_filename);
+    }
+    exit($status);
 }
 
 // 解析记录配置
@@ -73,7 +97,7 @@ if (php_sapi_name() === "cli") {
 if (empty($_arg) || empty($_arg["name"]) || empty($_arg["value"])) {
     // 参数不完整
     $log->send("Incomplete parameters", 2);
-    exit();
+    _exit();
 }
 // 将传参更新到配置参数
 foreach ($config as $key => &$value) {
@@ -89,7 +113,7 @@ if ($config["value"] === "ipv4" || $config["value"] === "ipv6") {
     } else {
         // 自动获取 IP 失败
         $log->send("Auto Get IP failed: " . $GetIP->error_msg, 3, true);
-        exit();
+        _exit();
     }
 }
 // 判断 IP 地址类型
@@ -102,14 +126,14 @@ if (filter_var($config["value"], FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === $conf
 } else {
     // IP 验证失败
     $log->send("IP format is incorrect.", 3, true);
-    exit();
+    _exit();
 }
 $dest_ip = $config["value"];
 $domain = sprintf("%s.%s", $config["name"], CONFIG_DOMAIN);
 // 仅更新防火墙规则
 if (!empty($_arg["update-rule"]) && $_arg["update-rule"] === "true") {
     Luci_RefreshRule($dest_ip, $domain, $family);
-    exit();
+    _exit();
 }
 // DDNS Start
 $_text = $config["value"] . " -> " . $domain;
@@ -122,3 +146,4 @@ if ($AliDDNS->OK) {
 } else {
     $log->send("AliDDNS failed: $_text " . $AliDDNS->error_msg, 3, true);
 }
+_exit();

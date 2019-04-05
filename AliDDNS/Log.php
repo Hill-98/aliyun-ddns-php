@@ -55,8 +55,7 @@ class Log
      */
     private function Save(string $log)
     {
-        $log_filename = __DIR__ . "/AliDDNS.log";
-        file_put_contents($log_filename, $log, FILE_APPEND);
+        file_put_contents(LOG_FILENAME, $log, FILE_APPEND);
     }
 
     /**

@@ -143,13 +143,12 @@ class Luci_RefreshRule
      */
     private function firewall_rule_format(string $dest_ip, string $family)
     {
-        $rule_filename = __DIR__ . "/firewall_rule.json";
         // 防火墙规则文件是否存在
-        if (file_exists($rule_filename)) {
-            $this->firewall_rule = json_decode(file_get_contents($rule_filename), true);
+        if (file_exists(FIREWALL_RULE_FILENAME)) {
+            $this->firewall_rule = json_decode(file_get_contents(FIREWALL_RULE_FILENAME), true);
             if (empty($this->firewall_rule) || empty($this->firewall_rule["name"]) || empty($this->firewall_rule["rules"])) {
                 // 防火墙规则文件不正确
-                $error_msg = "$rule_filename Firewall rule file is incorrect.";
+                $error_msg = FIREWALL_RULE_FILENAME . " Firewall rule file is incorrect.";
                 $this->error_msg = $error_msg;
                 $this->log->send($error_msg, 3);
                 return false;
@@ -157,11 +156,11 @@ class Luci_RefreshRule
             if (empty($this->firewall_rule["mark"])) {
                 // 防火墙规则标记不存在
                 $this->firewall_rule["mark"] = substr(sha1($this->firewall_rule["name"]), -6); // 用防火墙规则名称的 SHA1 HASH 前六位作为标记
-                file_put_contents($rule_filename, json_encode($this->firewall_rule, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+                file_put_contents(FIREWALL_RULE_FILENAME, json_encode($this->firewall_rule, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
             }
         } else {
             // 防火墙规则文件不存在
-            $error_msg = "$rule_filename Firewall rule file not exist.";
+            $error_msg = FIREWALL_RULE_FILENAME . " Firewall rule file not exist.";
             $this->error_msg = $error_msg;
             $this->log->send($error_msg, 2);
             return false;

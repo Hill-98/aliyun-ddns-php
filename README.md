@@ -1,5 +1,7 @@
 # aliyun-ddns-php
 
+![](https://img.shields.io/badge/version-v2-blue.svg)
+
 ## 简介 
 
 这是一个基于 [Aliyun OpenAPI SDK](https://github.com/aliyun/aliyun-openapi-php-sdk) 的 PHP 程序  
@@ -11,6 +13,8 @@
 它还可以自动帮你配置 OpenWrt 的 DNS 解析，确保能在第一时间使你局域网的解析生效。
 
 在解析出错或 OpenWrt 防火墙规则更新出错的时候，你可以通过配置 SMTP 来让它发送邮件提醒你。
+
+[更新日志](https://github.com/Hill-98/aliyun-ddns-php/blob/master/Changelog.md)
 
 ## 运行环境
 
