@@ -19,6 +19,7 @@ class Luci_RefreshRule
     private $rule_uci_key = [
         "name",
         "family",
+        "proto",
         "dest",
         "dest_ip",
         "dest_port",
@@ -31,9 +32,8 @@ class Luci_RefreshRule
     ];
     /** @var array 防火墙规则可用默认值 */
     private $rule_uci_value = [
-        "family" => "",
+        "proto" => "tcp udp",
         "dest" => "lan",
-        "dest_ip" => "",
         "src" => "wan",
         "target" => "ACCEPT"
     ];
@@ -166,14 +166,15 @@ class Luci_RefreshRule
             $this->log->send($error_msg, 2);
             return false;
         }
-        $this->rule_uci_value["family"] = $family;
-        $this->rule_uci_value["dest_ip"] = $dest_ip;
+        $this->firewall_rule["family"] = $family;
+        $this->firewall_rule["dest_ip"] = $dest_ip;
         // 补充缺省值
         foreach ($this->rule_uci_key as $key) {
             if (empty($this->firewall_rule[$key])) {
                 $this->firewall_rule[$key] = empty($this->rule_uci_value[$key]) ? null : $this->rule_uci_value[$key];
             }
         }
+
         // 清除没有名称的规则以及重命名规则
         foreach ($this->firewall_rule["rules"] as $key => &$item) {
             if (empty($item["name"])) {
@@ -267,7 +268,15 @@ class Luci_RefreshRule
             $uci_section = $json["result"];
             // 遍历设置防火墙规则值
             foreach ($this->rule_uci_key as $key) {
-                $value = empty($item[$key]) ? $this->firewall_rule[$key] : $item[$key];
+                // 如果是限制地址和目标地址，直接使用指定值。
+                if ($key === "family" || $key === "dest_ip") {
+                    $value = $this->firewall_rule[$key];
+                } else {
+                    if ($key === "dest_port" && empty($item[$key])) {
+                        continue;
+                    }
+                    $value = empty($item[$key]) ? $this->firewall_rule[$key] : $item[$key];
+                }
                 // 空值不设置
                 if (empty($value)) {
                     continue;

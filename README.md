@@ -42,77 +42,33 @@ composer install
 
 ## 配置
 
-将`config.example.php`重命名为`config.php`
+复制`config.example.php`并重命名为`config.php`
 
 编辑`config.php`
 
-**基本配置**
-```
-define("CONFIG_DOMAIN", "example.com"); // 解析操作的域名
-define("CONFIG_AccessKeyID", "Example_ID"); // 阿里云 AccessKeyID，可前往控制台获取。
-define("CONFIG_AccessKeySecret", "Example_KEY"); // 阿里云 AccessKeySecret，可前往控制台获取。
-```
-
-以上配置项为必改项  
-
-**OpenWrt 自动更新**
-
-如果你希望启用自动更新 OpenWrt 防火墙规则以及 DNS 解析，你需要编辑以下配置项：
-```
-define("CONFIG_LUCI_RPC_URL", "http://192.168.1.1/luci/rpc/"); // Luci RPC 调用地址
-define("CONFIG_LUCI_USER", "root"); // Luci 登陆用户
-define("CONFIG_LUCI_PASSWORD", "password"); // Luci 登陆密码
-define("CONFIG_UPDATE_ROUTER", false); // 是否更新路由器的防火墙以及 DNS 解析
-define("CONFIG_DNSMASQ_RESOLV_ADDRESS", ""); // 指定 Dnsmasq 解析地址
-```
-
-使用此项功能，你的 OpenWrt 必须安装`luci-mod-rpc`和`dnsmasq-full`软件包。
-
-你还需要创建`firewall_rule.json`防火墙规则文件，规则文件格式见此 Wiki。
-
-`CONFIG_DNSMASQ_RESOLV_ADDRESS`可以让你将解析的域名指定到任意 IP，比如你可以将它指定到本地的 IPv4 地址。
-
-只有当`CONFIG_UPDATE_ROUTER`为`true`时，才会启用 OpenWrt 自动更新。
-
-**电子邮件**
-
-如果你希望启用电子邮件发送功能，你需要编辑以下配置项：
-```
-define("CONFIG_LOG_EAMIL", false); // 是否可以通过电子邮件发送日志
-define("CONFIG_EMAIL_SMTP", ""); // 电子邮件 SMTP 服务器
-define("CONFIG_EMAIL_SMTP_PORT", 25); // 电子邮箱 SMTP 服务器端口
-define("CONFIG_EMAIL_SMTP_SSL", ""); // 电子邮箱 SMTP 服务器加密类型 可选值：ssl、tls
-define("CONFIG_EMAIL_SMTP_VERIFY", true); // 电子邮箱 SMTP 服务器验证
-define("CONFIG_EMAIL_USER", ""); // 电子邮件 SMTP 服务器用户名
-define("CONFIG_EMAIL_PASSWORD", ""); // 电子邮箱 SMTP 服务器密码
-define("CONFIG_EMAIL_SENDER", ""); // 电子邮件发件人
-define("CONFIG_EMAIL_ADDRESSEE", ""); // 电子邮件收件人
-``` 
-只有当`CONFIG_LOG_EAMIL`为`true`时，才会启用电子邮件发送功能，默认只会在 DDNS 解析失败 或 OpenWrt 更新失败时发送电子邮件。
+具体配置选项参考：[Wiki](https://github.com/Hill-98/aliyun-ddns-php/wiki/%E9%85%8D%E7%BD%AE%E9%80%89%E9%A1%B9)
 
 ## 使用
 
 使用的方法非常简单，支持 GET 和 CLI 两种调用方式。
 
-参数名       |可选值      |说明             |备注
-------------|-----------|-----------------|---
-name        |           |解析域名的主机名   |
-value       |ipv4 / ipv6|解析域名的记录值   |如果传递 ipv4 或 ipv6 则自动获取对应 IP
-update-rule |true       |仅更新 OpenWrt规则|
+参数名       |必须|可选值      |说明             |备注
+------------|:----:|-----------|-----------------|---
+name        |√   |           |解析域名的主机名   |
+value       |√   |ipv4 / ipv6|解析域名的记录值   |如果传递 ipv4 或 ipv6 则自动获取对应 IP
+update-rule |×   |true       |仅更新 OpenWrt规则|
 
 #### 示例：
 
-**GET:** `http://localhost/AliDDNS/index.php?name=example&value=ipv6`  
-**GET:** `http://localhost/AliDDNS/index.php?name=example&value=ipv6&update-rule=true`
+**GET:** `http://localhost/AliDDNS/index.php?name=test&value=ipv6`  
+**GET:** `http://localhost/AliDDNS/index.php?name=test&value=ipv6&update-rule=true`
 
-**CLI:** `php /opt/AliDDNS/index.php --name example --value ipv6`  
-**CLI:** `php /opt/AliDDNS/index.php --name example --value ipv6 --update-rule true`
+**CLI:** `php /opt/AliDDNS/index.php --name test --value ipv6`  
+**CLI:** `php /opt/AliDDNS/index.php --name test --value ipv6 --update-rule true`
 
-如果你想当 IP 地址变化时重新解析，以下方法可供参考：  
-1. 使用 Linux 的 crontab 定时执行本程序
-2. 如果你使用的是 OpenWrt 路由器，可以使用触发时间，当路由器重新拨号时自动执行本程序，具体方法见此 Wiki。
+>假如`CONFIG_DOMAIN`的值是`example.com`，以上示例将把设备的 IPv6 地址解析到`test.example.com`。
 
-Docker 运行方法见此 Wiki
+具体的使用方法可以参考：[Wiki](https://github.com/Hill-98/aliyun-ddns-php/wiki/%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95)
 
 ---
 
@@ -121,5 +77,9 @@ Docker 运行方法见此 Wiki
 由于我没有公网的 IPv4，在 IPv4 这块某些地方可能考虑不周，如果你有任何想法和建议，尽情提交 [Issues](https://github.com/Hill-98/aliyun-ddns-php/issues)。
 
 Developer: 小山
+
+QQ Group: [493736074](https://jq.qq.com/?_wv=1027&k=5f7KCIY)
+
+Telegram Group: [@mivm.cn](https://t.me/mivm_cn)
 
 Donate: [https://www.mivm.cn/donate/](https://www.mivm.cn/donate/)

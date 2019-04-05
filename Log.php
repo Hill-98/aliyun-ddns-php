@@ -43,7 +43,7 @@ class Log
             $this->Save($s_log);
         }
         // 电子邮件发送日志
-        if (CONFIG_LOG_EAMIL && $email) {
+        if (CONFIG_LOG_EMAIL && $email) {
             $this->Email($s_log);
         }
         date_default_timezone_set($default_timezone); // 还愿默认时区
