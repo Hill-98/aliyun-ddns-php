@@ -24,6 +24,7 @@ if (!empty(CONFIG_DEBUG)) {
 require_once __DIR__ . "/vendor/autoload.php";
 require_once __DIR__ . "/define.php";
 spl_autoload_register(function ($class_name) {
+    $class_name = str_replace("\\", "/", $class_name);
     require_once __DIR__ . "/$class_name.php";
 });
 
