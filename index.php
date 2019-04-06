@@ -17,6 +17,7 @@ if (!empty(CONFIG_DEBUG)) {
     error_reporting(E_ERROR);
 }
 require_once __DIR__ . "/vendor/autoload.php";
+require_once __DIR__ . "/update_config.php";
 spl_autoload_register(function ($class_name) {
     $class_name = str_replace("\\", "/", $class_name);
     require_once __DIR__ . "/$class_name.php";
@@ -100,7 +101,7 @@ function main()
             return;
         }
     }
-// 判断 IP 地址类型
+    // 判断 IP 地址类型
     if (filter_var($config["value"], FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === $config["value"]) {
         $config["type"] = "A";
         $family = "ipv4";
@@ -132,13 +133,14 @@ function main()
     }
 }
 
+// 防止重复运行
 $running_filename = "running";
 if (file_exists($running_filename)) {
-    exit();
+    die("Running");
 } else {
     file_put_contents($running_filename, $running_filename);
 }
-main();
+main(); // 主函数
 while (file_exists($running_filename)) {
     unlink($running_filename);
 }

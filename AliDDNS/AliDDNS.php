@@ -5,6 +5,7 @@ namespace AliDDNS;
 use AlibabaCloud\Client\AlibabaCloud;
 use AlibabaCloud\Client\Exception\ClientException;
 use AlibabaCloud\Client\Exception\ServerException;
+use AlibabaCloud\Client\Result\Result;
 
 class AliDDNS
 {
@@ -94,7 +95,7 @@ class AliDDNS
      * AliDNS 快速调用函数
      * @param string $action 请求方法
      * @param array $options 请求参数
-     * @return \AlibabaCloud\Client\Result\Result|bool
+     * @return Result|bool
      */
     private function AliDNS_Action(string $action, array $options)
     {

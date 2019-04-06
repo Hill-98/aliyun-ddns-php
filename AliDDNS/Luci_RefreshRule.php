@@ -4,6 +4,7 @@ namespace AliDDNS;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
+use Psr\Http\Message\ResponseInterface;
 
 class Luci_RefreshRule
 {
@@ -55,7 +56,7 @@ class Luci_RefreshRule
         if (!$this->RPC_Login()) {
             return;
         }
-        $this->update_dnsmasq_resolv($dest_ip, $domain);
+        $this->update_dns_resolve($dest_ip, $domain);
         if (!$this->firewall_rule_format($dest_ip, $family)) {
             return;
         }
@@ -99,7 +100,7 @@ class Luci_RefreshRule
      * @param string $uri RPC 方法类型
      * @param string $method RPC 请求方法
      * @param array $params RPC 请求参数
-     * @return bool|\Psr\Http\Message\ResponseInterface
+     * @return bool|ResponseInterface
      */
     private function RPC_Action(string $uri, string $method, array $params)
     {
@@ -118,13 +119,13 @@ class Luci_RefreshRule
     }
 
     /**
-     * 更新 Dnsmasq 解析
+     * 更新 DNS 解析
      * @param string $dest_ip 解析指向 IP
      * @param string $domain 解析域名
      */
-    private function update_dnsmasq_resolv(string $dest_ip, string $domain)
+    private function update_dns_resolve(string $dest_ip, string $domain)
     {
-        $dest_ip = empty(CONFIG_DNSMASQ_RESOLV_ADDRESS) ? $dest_ip : CONFIG_DNSMASQ_RESOLV_ADDRESS;
+        $dest_ip = empty(CONFIG_DNS_RESOLVE_ADDRESS) ? $dest_ip : CONFIG_DNS_RESOLVE_ADDRESS;
         if (!filter_var($dest_ip, FILTER_VALIDATE_IP)) {
             return;
         }
@@ -173,7 +174,6 @@ class Luci_RefreshRule
                 $this->firewall_rule[$key] = empty($this->rule_uci_value[$key]) ? null : $this->rule_uci_value[$key];
             }
         }
-
         // 清除没有名称的规则以及重命名规则
         foreach ($this->firewall_rule["rules"] as $key => &$item) {
             if (empty($item["name"])) {
@@ -271,6 +271,7 @@ class Luci_RefreshRule
                 if ($key === "family" || $key === "dest_ip") {
                     $value = $this->firewall_rule[$key];
                 } else {
+                    // 如果是目标端口，必须使用规则设置的值。
                     if ($key === "dest_port" && empty($item[$key])) {
                         continue;
                     }
