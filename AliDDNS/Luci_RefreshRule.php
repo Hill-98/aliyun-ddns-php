@@ -56,12 +56,12 @@ class Luci_RefreshRule
         if (!$this->RPC_Login()) {
             return;
         }
-        $this->update_dns_resolve($dest_ip, $domain);
-        if (!$this->firewall_rule_format($dest_ip, $family)) {
-            return;
+        if ($this->firewall_rule_format($dest_ip, $family)) {
+            $this->delete_firewall_rules();
+            $this->OK = $this->update_firewall_rules();
         }
-        $this->delete_firewall_rules();
-        $this->OK = $this->update_firewall_rules();
+        $this->update_dns_resolve($dest_ip, $domain);
+
     }
 
     /**
@@ -129,8 +129,9 @@ class Luci_RefreshRule
         if (!filter_var($dest_ip, FILTER_VALIDATE_IP)) {
             return;
         }
+        $filename = empty($this->firewall_rule["mark"]) ? $domain : $this->firewall_rule["mark"];
         $data = "address=/$domain/$dest_ip";
-        $response = $this->RPC_Action("sys", "call", [sprintf("echo \"%s\" > /tmp/dnsmasq.d/%s.conf", $data, $this->firewall_rule["mark"])]);
+        $response = $this->RPC_Action("sys", "call", [sprintf("echo \"%s\" > /tmp/dnsmasq.d/%s.conf", $data, $filename)]);
         if ($response) {
             $this->RPC_Action("sys", "call", ["/etc/init.d/dnsmasq restart"]);
         }

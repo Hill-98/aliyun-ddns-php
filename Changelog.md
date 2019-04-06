@@ -1,5 +1,8 @@
 # 更新日志
 
+### v5
+* 修复自动更新 OpenWrt DNS 解析无效。
+
 ### v4
 * 优化运行逻辑
 * 配置项名称变更：`CONFIG_DNSMASQ_RESOLV_ADDRESS`变更为`CONFIG_DNS_RESOLVE_ADDRESS`
