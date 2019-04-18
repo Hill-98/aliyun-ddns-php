@@ -1,6 +1,6 @@
 # aliyun-ddns-php
 
-![](https://img.shields.io/badge/version-v3-blue.svg)
+![](https://img.shields.io/badge/version-v5-blue.svg)
 
 ## 简介 
 
