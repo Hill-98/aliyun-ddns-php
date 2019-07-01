@@ -10,6 +10,7 @@ if (!empty($argv[1]) && $argv[1] === "version") {
 }
 if (file_exists(__DIR__ . "/config.php")) {
     require_once __DIR__ . "/config.php";
+    compatible_old_config();
 } else {
     die("config.php not exist.");
 }
@@ -17,11 +18,6 @@ if (!empty(CONFIG_DEBUG)) {
     error_reporting(E_ERROR);
 }
 require_once __DIR__ . "/vendor/autoload.php";
-require_once __DIR__ . "/update_config.php";
-spl_autoload_register(function ($class_name) {
-    $class_name = str_replace("\\", "/", $class_name);
-    require_once __DIR__ . "/$class_name.php";
-});
 
 /**
  * 更新 OpenWrt 规则 快速调用函数
@@ -134,9 +130,9 @@ function main()
 }
 
 // 防止重复运行
-$running_filename = "running";
+$running_filename = RUNNING_DIR . "/running";
 if (file_exists($running_filename)) {
-    die("Running");
+    die("Running" . PHP_EOL);
 } else {
     file_put_contents($running_filename, $running_filename);
 }

@@ -6,7 +6,7 @@ define("CONFIG_AccessKeySecret", "Example_KEY"); // 阿里云 AccessKeySecret，
 define("CONFIG_AliDNS_TTL", 600); // 解析生效时间 可选值：https://help.aliyun.com/document_detail/29806.html
 define("CONFIG_AliDNS_LINE", "default"); // 解析线路 可选值：https://help.aliyun.com/document_detail/29807.html
 
-define("CONFIG_LUCI_RPC_URL", "http://192.168.1.1/luci/rpc/"); // Luci RPC 调用地址
+define("CONFIG_LUCI_RPC_URL", "http://192.168.1.1/cgi-bin/luci/rpc/"); // Luci RPC 调用地址
 define("CONFIG_LUCI_USER", "root"); // Luci 登陆用户名
 define("CONFIG_LUCI_PASSWORD", "password"); // Luci 登陆密码
 define("CONFIG_DNS_RESOLVE_ADDRESS", ""); // 指定 DNS 解析 IP 地址
