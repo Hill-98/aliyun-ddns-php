@@ -1,6 +1,6 @@
 # aliyun-ddns-php
 
-![](https://img.shields.io/badge/version-v6-blue.svg)
+![](https://img.shields.io/badge/version-v7-blue.svg)
 
 ## 简介 
 
@@ -18,11 +18,11 @@
 
 ## 运行环境
 
-* [PHP](https://php.net) 5.6 +
+* [PHP](https://php.net) 7.0 +
 * [Composer](https://getcomposer.org) （可选）
 * PHP 扩展：`hash`、`json`、`openssl`
 
-#### Debian / Ubuntu
+#### Debian 9 + / Ubuntu 16.04 +
 ```
 sudo apt install php
 ```

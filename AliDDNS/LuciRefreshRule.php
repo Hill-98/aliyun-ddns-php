@@ -6,7 +6,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Message\ResponseInterface;
 
-class Luci_RefreshRule
+class LuciRefreshRule
 {
     /** @var string $error_msg 最后一次错误信息 */
     public $error_msg;
@@ -14,7 +14,7 @@ class Luci_RefreshRule
     public $OK;
     /** @var array $firewall_rule 防火墙规则 */
     private $firewall_rule;
-    private $log;
+    private $logger;
     private $rpc_client;
     /** @var array 防火墙规则可用键名 */
     private $rule_uci_key = [
@@ -39,7 +39,6 @@ class Luci_RefreshRule
         "target" => "ACCEPT"
     ];
 
-
     /**
      * Luci_RefreshRule constructor.
      * @param string $dest_ip 防火墙规则目标 IP
@@ -48,7 +47,7 @@ class Luci_RefreshRule
      */
     function __construct(string $dest_ip, string $domain, string $family)
     {
-        $this->log = new Log();
+        $this->logger = new Logger();
         $this->rpc_client = new Client([
             "base_uri" => CONFIG_LUCI_RPC_URL,
             "cookies" => true
@@ -74,48 +73,32 @@ class Luci_RefreshRule
             CONFIG_LUCI_USER,
             CONFIG_LUCI_PASSWORD
         ];
-        $response = $this->RPC_Action("auth", "login", $params);
-        if ($response) {
-            $json = json_decode($response->getBody(), true);
-            if (empty($json) || empty($json["result"])) {
-                // 登陆失败
-                $rpc_error_msg = empty($json["error"]) ? "null" : $json["error"];
-                $error_msg = "Luci RPC Auth failed: " . $rpc_error_msg;
-                $this->error_msg = $error_msg;
-                $this->log->send($error_msg, 3);
-                return false;
-            }
-        } else {
-            // 登陆失败
-            $error_msg = "Luci RPC Auth failed";
-            $this->error_msg = $error_msg;
-            $this->log->send($error_msg, 3);
-            return false;
-        }
-        return true;
+        $response = $this->Luci_RPC("auth", "login", $params);
+        $error_text = "Luci RPC Auth failed";
+        return $this->rpc_is_success($response, $error_text);
     }
 
     /**
-     * RPC 快速调用函数
+     * LUCI RPC 调用函数
      * @param string $uri RPC 方法类型
      * @param string $method RPC 请求方法
      * @param array $params RPC 请求参数
      * @return bool|ResponseInterface
      */
-    private function RPC_Action(string $uri, string $method, array $params)
+    private function Luci_RPC(string $uri, string $method, array $params)
     {
+        $result = false;
         try {
-            $response = $this->rpc_client->post($uri, [
+            $result = $this->rpc_client->post($uri, [
                 "json" => [
                     "method" => $method,
                     "params" => $params
                 ]
             ]);
-            return $response;
         } catch (RequestException $e) {
-            $this->log->send($e->getMessage(), 3);
-            return false;
+            $this->logger->send(Logger::ERROR, $e->getMessage());
         }
+        return $result;
     }
 
     /**
@@ -131,9 +114,9 @@ class Luci_RefreshRule
         }
         $filename = empty($this->firewall_rule["mark"]) ? $domain : $this->firewall_rule["mark"];
         $data = "address=/$domain/$dest_ip";
-        $response = $this->RPC_Action("sys", "call", [sprintf("echo \"%s\" > /tmp/dnsmasq.d/%s.conf", $data, $filename)]);
+        $response = $this->Luci_RPC("sys", "call", [sprintf("echo \"%s\" > /tmp/dnsmasq.d/%s.conf", $data, $filename)]);
         if ($response) {
-            $this->RPC_Action("sys", "call", ["/etc/init.d/dnsmasq restart"]);
+            $this->Luci_RPC("sys", "call", ["/etc/init.d/dnsmasq restart"]);
         }
     }
 
@@ -148,23 +131,24 @@ class Luci_RefreshRule
         // 防火墙规则文件是否存在
         if (file_exists(FIREWALL_RULE_FILENAME)) {
             $this->firewall_rule = json_decode(file_get_contents(FIREWALL_RULE_FILENAME), true);
+            // 防火墙规则文件不正确
             if (empty($this->firewall_rule) || empty($this->firewall_rule["name"]) || empty($this->firewall_rule["rules"])) {
-                // 防火墙规则文件不正确
                 $error_msg = FIREWALL_RULE_FILENAME . " Firewall rule file is incorrect.";
                 $this->error_msg = $error_msg;
-                $this->log->send($error_msg, 3);
+                $this->logger->send(Logger::ERROR, $error_msg);
                 return false;
             }
+            // 防火墙规则标记不存在
             if (empty($this->firewall_rule["mark"])) {
-                // 防火墙规则标记不存在
-                $this->firewall_rule["mark"] = substr(sha1($this->firewall_rule["name"]), -6); // 用防火墙规则名称的 SHA1 HASH 前六位作为标记
+                // 用防火墙规则名称的 SHA1 HASH 前六位作为标记
+                $this->firewall_rule["mark"] = substr(sha1($this->firewall_rule["name"]), -6);
                 file_put_contents(FIREWALL_RULE_FILENAME, json_encode($this->firewall_rule, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
             }
         } else {
             // 防火墙规则文件不存在
             $error_msg = FIREWALL_RULE_FILENAME . " Firewall rule file not exist.";
             $this->error_msg = $error_msg;
-            $this->log->send($error_msg, 2);
+            $this->logger->send(Logger::ERROR, $error_msg);
             return false;
         }
         $this->firewall_rule["family"] = $family;
@@ -192,19 +176,12 @@ class Luci_RefreshRule
     private function delete_firewall_rules()
     {
         // 获取所有防火墙规则
-        $response = $this->RPC_Action("uci", "get_all", ["firewall"]);
-        if (!$response) {
-            // 获取防火墙规则失败
-            $this->log->send("Failed to get firewall rules.", 2);
+        $response = $this->Luci_RPC("uci", "get_all", ["firewall"]);
+        $error_text = "Failed to get firewall rules";
+        if (!$this->rpc_is_success($response, $error_text, Logger::WARNING)) {
             return;
         }
         $json = json_decode($response->getBody(), true);
-        if (empty($json) || empty($json["result"])) {
-            // 获取防火墙规则失败
-            $rpc_error_msg = empty($json["error"]) ? "null" : $json["error"];
-            $this->log->send("Failed to get firewall rules: $rpc_error_msg.", 2);
-            return;
-        }
         // 遍历防火墙规则，匹配规则特征值，以删除旧的规则。
         foreach ($json["result"] as $key => $item) {
             if (empty($item["name"])) {
@@ -215,22 +192,42 @@ class Luci_RefreshRule
                 $key
             ];
             // 查询规则名称是否存在特征值
-            if (strstr($item["name"], sprintf("[%s]", $this->firewall_rule["mark"]))) {
-                $response = $this->RPC_Action("uci", "delete", $params);
-                if ($response) {
-                    $json = json_decode($response->getBody(), true);
-                    if (empty($json) || empty($json["result"])) {
-                        // 删除防火墙规则失败
-                        $rpc_error_msg = empty($json["error"]) ? "null" : $json["error"];
-                        $this->log->send("Delete firewall rule failed: " . $item["name"] . " - $rpc_error_msg.", 2);
-                    }
-                } else {
-                    // 删除防火墙规则失败
-                    $this->log->send("Delete firewall rule failed: " . $item["name"], 2);
-                }
+            if (strstr($item["name"], "[{$this->firewall_rule["mark"]}]")) {
+                $response = $this->Luci_RPC("uci", "delete", $params);
+                $error_text = "Delete firewall rule failed: {$item["name"]}";
+                // 删除防火墙规则是否成功
+                $this->rpc_is_success($response, $error_text, Logger::WARNING);
             }
         }
-        $this->RPC_Action("uci", "commit", ["firewall"]);
+        $this->Luci_RPC("uci", "commit", ["firewall"]);
+    }
+
+    /**
+     * 检查 RPC 请求是否成功
+     * @param ResponseInterface $response RPC 请求的相应
+     * @param string $error_text 错误文本
+     * @param int $log_level 错误文本写入日志时的等级
+     * @return bool RPC 是否成功
+     */
+    private function rpc_is_success(ResponseInterface $response, string $error_text = "", int $log_level = Logger::ERROR)
+    {
+        $result = true;
+        if ($response) {
+            $json = json_decode($response->getBody(), true);
+            if (empty($json) || empty($json["result"])) {
+                $result = false;
+                $rpc_error_msg = empty($json["error"]) ? "null" : $json["error"];
+                if (!empty($error_text)) $error_text .= " - $rpc_error_msg";
+            }
+        } else {
+            $result = false;
+            // 检查已失败规则里是否存在该规则
+        }
+        if (!$result && !empty($error_text)) {
+            $this->error_msg = $error_text;
+            $this->logger->send($log_level, $error_text);
+        }
+        return $result;
     }
 
     /**
@@ -241,30 +238,21 @@ class Luci_RefreshRule
     {
         $result = true;
         $failed_rules = [];
-        $this->error_msg = "Firewall rule failed: ";
         // 遍历添加防火墙规则
-        foreach ($this->firewall_rule["rules"] as $item) {
+        foreach ($this->firewall_rule["rules"] as $rule) {
             $params = [
                 "firewall",
                 "rule"
             ];
-            $response = $this->RPC_Action("uci", "add", $params);
-            if (!$response) {
-                // 添加防火墙规则失败
+            $response = $this->Luci_RPC("uci", "add", $params);
+            $rule_name = $rule["name"];
+            $error_text = "Add firewall rule section failed: $rule_name";
+            if (!$this->rpc_is_success($response, $error_text)) {
                 $result = false;
-                if (!in_array($item["name"], $failed_rules)) $failed_rules[] = $item["name"];
-                $this->log->send("Add firewall rule section failed: " . $item["name"], 3);
+                if (!in_array($rule_name, $failed_rules)) $failed_rules[] = $rule_name;
                 continue;
             }
             $json = json_decode($response->getBody(), true);
-            if (empty($json) || empty($json["result"])) {
-                // 添加防火墙规则失败
-                $result = false;
-                if (!in_array($item["name"], $failed_rules)) $failed_rules[] = $item["name"];
-                $rpc_error_msg = empty($json["error"]) ? "null" : $json["error"];
-                $this->log->send("Add firewall rule section failed: " . $item["name"] . " - $rpc_error_msg.", 3);
-                continue;
-            }
             $uci_section = $json["result"];
             // 遍历设置防火墙规则值
             foreach ($this->rule_uci_key as $key) {
@@ -273,10 +261,10 @@ class Luci_RefreshRule
                     $value = $this->firewall_rule[$key];
                 } else {
                     // 如果是目标端口，必须使用规则设置的值。
-                    if ($key === "dest_port" && empty($item[$key])) {
+                    if ($key === "dest_port" && empty($rule[$key])) {
                         continue;
                     }
-                    $value = empty($item[$key]) ? $this->firewall_rule[$key] : $item[$key];
+                    $value = empty($rule[$key]) ? $this->firewall_rule[$key] : $rule[$key];
                 }
                 // 空值不设置
                 if (empty($value)) {
@@ -288,33 +276,19 @@ class Luci_RefreshRule
                     $key,
                     $value
                 ];
-                $response = $this->RPC_Action("uci", "set", $params);
-                if ($response) {
-                    $json = json_decode($response->getBody(), true);
-                    if (empty($json) || empty($json["result"])) {
-                        // 设置防火墙规则值失败
-                        $result = false;
-                        if (!in_array($item["name"], $failed_rules)) $failed_rules[] = $item["name"];
-                        $rpc_error_msg = empty($json["error"]) ? "null" : $json["error"];
-                        $this->log->send("Set firewall rule value failed: " . $item["name"] . " - $uci_section.$key.$value - $rpc_error_msg", 3);
-                    }
-                } else {
-                    // 设置防火墙规则值失败
+                $response = $this->Luci_RPC("uci", "set", $params);
+                $error_text = "Set firewall rule value failed: {$rule_name} - $uci_section.$key.$value";
+                if (!$this->rpc_is_success($response, $error_text)) {
                     $result = false;
-                    if (!in_array($item["name"], $failed_rules)) $failed_rules[] = $item["name"];
-                    $this->log->send("Set firewall rule value failed: " . $item["name"] . " - $uci_section.$key.$value", 3);
+                    if (!in_array($rule_name, $failed_rules)) $failed_rules[] = $rule_name;
                 }
             }
         }
-        $response = $this->RPC_Action("uci", "commit", ["firewall"]);
-        if ($response) {
-            $json = json_decode($response->getBody(), true);
-            if (empty($json) || empty($json["result"])) {
-                // 提交防火墙规则失败
-                $result = false;
-            }
+        $response = $this->Luci_RPC("uci", "commit", ["firewall"]);
+        if (!$this->rpc_is_success($response, "Commit firewall rule failed")) $result = false;
+        if (!empty($failed_rules)) {
+            $this->error_msg = "Firewall rule failed: " . implode(" ", $failed_rules);
         }
-        $this->error_msg .= implode(" ", $failed_rules);
         return $result;
     }
 }
