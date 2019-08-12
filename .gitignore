@@ -1,8 +1,5 @@
-
-# Created by https://www.gitignore.io/api/phpstorm
-# Edit at https://www.gitignore.io/?templates=phpstorm
-
-### PhpStorm ###
+# Created by .ignore support plugin (hsz.mobi)
+### JetBrains template
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and WebStorm
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
@@ -36,6 +33,8 @@
 # .idea/modules.xml
 # .idea/*.iml
 # .idea/modules
+# *.iml
+# *.ipr
 
 # CMake
 cmake-build-*/
@@ -70,25 +69,8 @@ fabric.properties
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
 
-# JetBrains templates
-**___jb_tmp___
-
-### PhpStorm Patch ###
-# Comment Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-215987721
-
-# *.iml
-# modules.xml
-# .idea/misc.xml
-# *.ipr
-
-# Sonarlint plugin
-.idea/sonarlint
-
-# End of https://www.gitignore.io/api/phpstorm
-
-vendor
-*.log
+# AliDDNS
+AliDDNS.log
 config.php
 firewall_rule.json
 test.php
-running
