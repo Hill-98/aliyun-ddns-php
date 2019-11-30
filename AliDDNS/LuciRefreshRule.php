@@ -132,7 +132,7 @@ class LuciRefreshRule
         if (file_exists(FIREWALL_RULE_FILENAME)) {
             $this->firewall_rule = json_decode(file_get_contents(FIREWALL_RULE_FILENAME), true);
             // 防火墙规则文件不正确
-            if (empty($this->firewall_rule) || empty($this->firewall_rule["name"]) || isset($this->firewall_rule["rules"])) {
+            if (empty($this->firewall_rule) || empty($this->firewall_rule["name"]) || !isset($this->firewall_rule["rules"])) {
                 $error_msg = FIREWALL_RULE_FILENAME . " Firewall rule file is incorrect.";
                 $this->error_msg = $error_msg;
                 $this->logger->send(Logger::ERROR, $error_msg);

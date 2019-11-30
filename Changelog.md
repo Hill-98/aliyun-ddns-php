@@ -1,6 +1,6 @@
 # 更新日志
 
-### v8
+### v9
 * 更换获取 IP 的 API [http://ip.ss.zxinc.org/](http://ip.ss.zxinc.org/)
 * 修复 BUG
 
