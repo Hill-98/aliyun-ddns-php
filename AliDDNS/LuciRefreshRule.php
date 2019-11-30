@@ -45,7 +45,7 @@ class LuciRefreshRule
      * @param string $domain DNS 解析域名
      * @param string $family IP 类型
      */
-    function __construct(string $dest_ip, string $domain, string $family)
+    public function __construct(string $dest_ip, string $domain, string $family)
     {
         $this->logger = new Logger();
         $this->rpc_client = new Client([
@@ -132,7 +132,7 @@ class LuciRefreshRule
         if (file_exists(FIREWALL_RULE_FILENAME)) {
             $this->firewall_rule = json_decode(file_get_contents(FIREWALL_RULE_FILENAME), true);
             // 防火墙规则文件不正确
-            if (empty($this->firewall_rule) || empty($this->firewall_rule["name"]) || empty($this->firewall_rule["rules"])) {
+            if (empty($this->firewall_rule) || empty($this->firewall_rule["name"]) || isset($this->firewall_rule["rules"])) {
                 $error_msg = FIREWALL_RULE_FILENAME . " Firewall rule file is incorrect.";
                 $this->error_msg = $error_msg;
                 $this->logger->send(Logger::ERROR, $error_msg);
@@ -192,7 +192,7 @@ class LuciRefreshRule
                 $key
             ];
             // 查询规则名称是否存在特征值
-            if (strstr($item["name"], "[{$this->firewall_rule["mark"]}]")) {
+            if (strpos($item["name"], "[{$this->firewall_rule["mark"]}]") !== false) {
                 $response = $this->Luci_RPC("uci", "delete", $params);
                 $error_text = "Delete firewall rule failed: {$item["name"]}";
                 // 删除防火墙规则是否成功

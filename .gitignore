@@ -74,3 +74,4 @@ AliDDNS.log
 config.php
 firewall_rule.json
 test.php
+vendor/

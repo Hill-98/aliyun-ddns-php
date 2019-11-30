@@ -1,5 +1,9 @@
 # 更新日志
 
+### v8
+* 更换获取 IP 的 API [http://ip.ss.zxinc.org/](http://ip.ss.zxinc.org/)
+* 修复 BUG
+
 ### v7
 * 几乎重写了逻辑
 * 日志系统使用`Monolog`实现（如果你使用 git 安装，请重新运行`composer update`）

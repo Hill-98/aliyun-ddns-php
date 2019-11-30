@@ -3,6 +3,8 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/AliDDNS" isTestSource="false" packagePrefix="AliDDNS\" />
+      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/adbario/php-dot-notation" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/alibabacloud/client" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/alibabacloud/sdk" />
