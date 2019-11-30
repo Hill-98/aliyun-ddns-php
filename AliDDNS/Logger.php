@@ -2,31 +2,34 @@
 
 namespace AliDDNS;
 
+use Monolog\Logger as MLogger;
 use Monolog\Handler\StreamHandler;
 use Monolog\Processor\IntrospectionProcessor;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
-class Logger extends \Monolog\Logger
+class Logger extends MLogger
 {
-    /**
-     * Logger constructor.
-     */
-    public function __construct()
+    private static ?MLogger $logger = null;
+
+    public static function init(): void
     {
+        if (self::$logger !== null) {
+            return;
+        }
         $name = __NAMESPACE__;
         $handlers = [];
         $processors = [
-            new IntrospectionProcessor()
+            new IntrospectionProcessor(self::DEBUG, [self::class])
         ];
         if (CONFIG_LOG_SAVE) {
             try {
-                $handlers[] = new StreamHandler(RUNNING_DIR . "/{$name}.log");
+                $handlers[] = new StreamHandler(BASEDIR . "/{$name}.log");
             } catch (\Exception $e) {
                 echo $e->getMessage();
             }
         }
-        parent::__construct($name, $handlers, $processors);
+        self::$logger = new MLogger($name, $handlers, $processors);
     }
 
     /**
@@ -34,17 +37,22 @@ class Logger extends \Monolog\Logger
      * @param string $message 日志信息
      * @param bool $email 是否使用电子邮件发送
      */
-    public function send(int $level, string $message, bool $email = false)
+    public static function send(int $level, string $message, bool $email = false): void
     {
-        $config_timezone = empty(CONFIG_LOG_TIMEZONE) ? "UTC" : CONFIG_LOG_TIMEZONE;
+        if (self::$logger === null) {
+            return;
+        }
+        $config_timezone = empty(CONFIG_LOG_TIMEZONE) ? 'UTC' : CONFIG_LOG_TIMEZONE;
         $default_timezone = date_default_timezone_get(); // 获取默认时区
         date_default_timezone_set($config_timezone); // 设置日志时间时区
-        parent::log($level, $message);
         // 输出日志
-        if (CONFIG_DEBUG) echo $message . PHP_EOL;
+        if (CONFIG_DEBUG) {
+            echo $message . PHP_EOL;
+        }
+        self::$logger->log($level, $message);
         // 电子邮件发送日志
         if (CONFIG_LOG_EMAIL && $email) {
-            $this->Email($message);
+            self::sendEmail($message);
         }
         date_default_timezone_set($default_timezone); // 还愿默认时区
     }
@@ -53,14 +61,14 @@ class Logger extends \Monolog\Logger
      * 用电子邮件发送日志信息
      * @param string $log 日志类型
      */
-    private function Email(string $log)
+    private static function sendEmail(string $log): void
     {
         if (empty(CONFIG_EMAIL_SMTP) || empty(CONFIG_EMAIL_SMTP_PORT)) {
-            $this->send(parent::WARNING, "Mail STMP server configuration error.");
+            self::send(self::WARNING, 'Mail STMP server configuration error.');
             return;
         }
         if (empty(CONFIG_EMAIL_ADDRESSEE) || empty(CONFIG_EMAIL_SENDER)) {
-            $this->send(parent::WARNING, "Mail recipient or sender is not set.");
+            self::send(self::WARNING, 'Mail recipient or sender is not set.');
             return;
         }
         $mail = new PHPMailer(true);
@@ -75,21 +83,20 @@ class Logger extends \Monolog\Logger
             }
             if ($mail->SMTPAuth) {
                 if (empty(CONFIG_EMAIL_USER) || empty(CONFIG_EMAIL_PASSWORD)) {
-                    $this->send(parent::WARNING, "Mail The STMP server requires authentication, but no username and password are configured.");
+                    self::send(self::WARNING, 'Mail The STMP server requires authentication, but no username and password are configured.');
                     return;
-                } else {
-                    $mail->Username = CONFIG_EMAIL_USER;
-                    $mail->Password = CONFIG_EMAIL_PASSWORD;
                 }
+                $mail->Username = CONFIG_EMAIL_USER;
+                $mail->Password = CONFIG_EMAIL_PASSWORD;
             }
-            $mail->setFrom(CONFIG_EMAIL_SENDER, "AliDDNS");
+            $mail->setFrom(CONFIG_EMAIL_SENDER, 'AliDDNS');
             $mail->addAddress(CONFIG_EMAIL_ADDRESSEE);
-            $mail->Subject = "[AliDDNS] Log message";
+            $mail->Subject = '[AliDDNS] Log message';
             $mail->AltBody = $log;
             $mail->Body = $log;
             $mail->send();
         } catch (Exception $e) {
-            $this->send(parent::ERROR, $e->getMessage());
+            self::send(self::ERROR, $e->getMessage());
         }
     }
 }

@@ -1,31 +1,28 @@
 <?php
-define("VERSION", "v9");
-define("RUNNING_DIR", __DIR__);
-define("LOG_FILENAME", RUNNING_DIR . "/AliDDNS.log");
-define("FIREWALL_RULE_FILENAME", RUNNING_DIR . "/firewall_rule.json");
-define("IP_TYPE_V4", 4784);
-define("IP_TYPE_V6", 4786);
+define('VERSION', 'v9');
+define('BASEDIR', __DIR__);
+define('LOG_FILENAME', __DIR__ . '/AliDDNS.log');
+define('FIREWALL_RULE_FILENAME', __DIR__ . '/firewall_rule.json');
+define('IP_TYPE_V4', FILTER_FLAG_IPV4);
+define('IP_TYPE_V6', FILTER_FLAG_IPV6);
 
 /**
  * 兼容旧的配置文件
  */
-function compatible_old_config()
+function compatibleOldConfig()
 {
-    $config_value = get_defined_constants(true)["user"]; // 获取用户定义的常量
-    $config_old_name = [ // 新配置项对应的旧配置项名称
-        "CONFIG_DNS_RESOLVE_ADDRESS" => [
-            "CONFIG_DNSMASQ_RESOLV_ADDRESS"
-        ]
+    // 新配置项对应的旧配置项名称
+    $configOldName = [
+        'CONFIG_DNS_RESOLVE_ADDRESS' => 'CONFIG_DNSMASQ_RESOLV_ADDRESS',
+        'CONFIG_UPDATE_FIREWALL' => 'CONFIG_UPDATE_ROUTER',
+        'CONFIG_UPDATE_DNSMASQ' => 'CONFIG_UPDATE_ROUTER'
     ];
-    $config_new_name = array_keys($config_old_name);
-    foreach ($config_new_name as $CONFIG) { // 循环新配置项
-        if (!isset($config_value[$CONFIG]) && !empty($config_old_name[$CONFIG])) { // 判断新配置项是否存在旧配置项
-            foreach ($config_old_name[$CONFIG] as $OLD_CONFIG) { // 循环新配置项的旧配置项名称
-                if (isset($config_value[$OLD_CONFIG])) { // 旧配置项是否存在
-                    define($CONFIG, $config_value[$OLD_CONFIG]);
-                    break;
-                }
-            }
+    $configNewKeys = array_keys($configOldName);
+    // 遍历新配置项
+    foreach ($configNewKeys as $key) {
+        // 判断当前配置项是否不存在新配置项
+        if (!defined($key) && defined($configOldName[$key])) {
+            define($key, constant($configOldName[$key]));
         }
     }
 }
