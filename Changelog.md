@@ -2,6 +2,7 @@
 
 ### v10
 * 重构代码
+* 分离 `CONFIG_UPDATE_ROUTER` 选项为 `CONFIG_UPDATE_FIREWALL` 和 `CONFIG_UPDATE_DNSMASQ`，现在可以单独控制防火墙规则和 Dnsmasq 解析的自动更新了。
 
 ### v9
 * 更换获取 IP 的 API [http://ip.ss.zxinc.org/](http://ip.ss.zxinc.org/)
