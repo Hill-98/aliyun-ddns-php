@@ -1,5 +1,5 @@
 <?php
-define('VERSION', 'v9');
+define('VERSION', 'v10');
 define('BASEDIR', __DIR__);
 define('LOG_FILENAME', __DIR__ . '/AliDDNS.log');
 define('FIREWALL_RULE_FILENAME', __DIR__ . '/firewall_rule.json');

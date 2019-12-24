@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b79bbc7d0e4eb658b408a0814521f224",
+    "content-hash": "6b41af2fd71d750a4d0e7d05264c247e",
     "packages": [
         {
             "name": "adbario/php-dot-notation",
@@ -63,16 +63,16 @@
         },
         {
             "name": "alibabacloud/client",
-            "version": "1.5.18",
+            "version": "1.5.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aliyun/openapi-sdk-php-client.git",
-                "reference": "5dcf7b8fdfa64abdae7a5ca867289baf95e8e12a"
+                "reference": "4bbe05e1beadcea033bb8ef05b56763913fe8955"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aliyun/openapi-sdk-php-client/zipball/5dcf7b8fdfa64abdae7a5ca867289baf95e8e12a",
-                "reference": "5dcf7b8fdfa64abdae7a5ca867289baf95e8e12a",
+                "url": "https://api.github.com/repos/aliyun/openapi-sdk-php-client/zipball/4bbe05e1beadcea033bb8ef05b56763913fe8955",
+                "reference": "4bbe05e1beadcea033bb8ef05b56763913fe8955",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -146,20 +146,20 @@
                 "sdk",
                 "tool"
             ],
-            "time": "2019-10-11T11:09:47+00:00"
+            "time": "2019-12-17T04:45:39+00:00"
         },
         {
             "name": "alibabacloud/sdk",
-            "version": "1.7.184",
+            "version": "1.8.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aliyun/openapi-sdk-php.git",
-                "reference": "fd3e4f8bf1382b4d47afc594e642d4da53ba7751"
+                "reference": "23cf5ee6eb235d02b57e359771dd46760e34e811"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aliyun/openapi-sdk-php/zipball/fd3e4f8bf1382b4d47afc594e642d4da53ba7751",
-                "reference": "fd3e4f8bf1382b4d47afc594e642d4da53ba7751",
+                "url": "https://api.github.com/repos/aliyun/openapi-sdk-php/zipball/23cf5ee6eb235d02b57e359771dd46760e34e811",
+                "reference": "23cf5ee6eb235d02b57e359771dd46760e34e811",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -226,7 +226,6 @@
                 "alibabacloud/dds": "self.version",
                 "alibabacloud/dm": "self.version",
                 "alibabacloud/dmsenterprise": "self.version",
-                "alibabacloud/dnsknocker": "self.version",
                 "alibabacloud/domain": "self.version",
                 "alibabacloud/domainintl": "self.version",
                 "alibabacloud/drcloud": "self.version",
@@ -245,9 +244,11 @@
                 "alibabacloud/elasticsearch": "self.version",
                 "alibabacloud/emr": "self.version",
                 "alibabacloud/ess": "self.version",
+                "alibabacloud/facebody": "self.version",
                 "alibabacloud/fnf": "self.version",
                 "alibabacloud/foas": "self.version",
                 "alibabacloud/ft": "self.version",
+                "alibabacloud/goodstech": "self.version",
                 "alibabacloud/gpdb": "self.version",
                 "alibabacloud/green": "self.version",
                 "alibabacloud/hbase": "self.version",
@@ -255,9 +256,11 @@
                 "alibabacloud/hsm": "self.version",
                 "alibabacloud/httpdns": "self.version",
                 "alibabacloud/idst": "self.version",
+                "alibabacloud/imageaudit": "self.version",
                 "alibabacloud/imageenhan": "self.version",
                 "alibabacloud/imagerecog": "self.version",
                 "alibabacloud/imagesearch": "self.version",
+                "alibabacloud/imageseg": "self.version",
                 "alibabacloud/imm": "self.version",
                 "alibabacloud/industrybrain": "self.version",
                 "alibabacloud/iot": "self.version",
@@ -285,6 +288,8 @@
                 "alibabacloud/nlpautoml": "self.version",
                 "alibabacloud/nlscloudmeta": "self.version",
                 "alibabacloud/nlsfiletrans": "self.version",
+                "alibabacloud/objectdet": "self.version",
+                "alibabacloud/ocr": "self.version",
                 "alibabacloud/ocs": "self.version",
                 "alibabacloud/oms": "self.version",
                 "alibabacloud/ons": "self.version",
@@ -300,6 +305,7 @@
                 "alibabacloud/qualitycheck": "self.version",
                 "alibabacloud/ram": "self.version",
                 "alibabacloud/rds": "self.version",
+                "alibabacloud/reid": "self.version",
                 "alibabacloud/retailcloud": "self.version",
                 "alibabacloud/rkvstore": "self.version",
                 "alibabacloud/ros": "self.version",
@@ -372,7 +378,7 @@
                 "library",
                 "sdk"
             ],
-            "time": "2019-11-29T10:31:15+00:00"
+            "time": "2019-12-20T13:14:48+00:00"
         },
         {
             "name": "clagiordano/weblibs-configmanager",
@@ -492,16 +498,16 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "6.4.1",
+            "version": "6.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "0895c932405407fd3a7368b6910c09a24d26db11"
+                "reference": "43ece0e75098b7ecd8d13918293029e555a50f82"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/0895c932405407fd3a7368b6910c09a24d26db11",
-                "reference": "0895c932405407fd3a7368b6910c09a24d26db11",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/43ece0e75098b7ecd8d13918293029e555a50f82",
+                "reference": "43ece0e75098b7ecd8d13918293029e555a50f82",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -522,12 +528,13 @@
                 "psr/log": "^1.1"
             },
             "suggest": {
+                "ext-intl": "Required for Internationalized Domain Name (IDN) support",
                 "psr/log": "Required for using the Log middleware"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "6.3-dev"
+                    "dev-master": "6.5-dev"
                 }
             },
             "autoload": {
@@ -560,7 +567,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2019-10-23T15:58:00+00:00"
+            "time": "2019-12-23T11:57:10+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -698,16 +705,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.25.2",
+            "version": "1.25.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "d5e2fb341cb44f7e2ab639d12a1e5901091ec287"
+                "reference": "fa82921994db851a8becaf3787a9e73c5976b6f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/d5e2fb341cb44f7e2ab639d12a1e5901091ec287",
-                "reference": "d5e2fb341cb44f7e2ab639d12a1e5901091ec287",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/fa82921994db851a8becaf3787a9e73c5976b6f1",
+                "reference": "fa82921994db851a8becaf3787a9e73c5976b6f1",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -778,7 +785,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2019-11-13T10:00:05+00:00"
+            "time": "2019-12-20T14:15:16+00:00"
         },
         {
             "name": "mtdowling/jmespath.php",
@@ -843,16 +850,16 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.1.3",
+            "version": "v6.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "a25ae38e03de4ee4031725498a600012364787c7"
+                "reference": "c5e61d0729507049cec9673aa1a679f9adefd683"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/a25ae38e03de4ee4031725498a600012364787c7",
-                "reference": "a25ae38e03de4ee4031725498a600012364787c7",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/c5e61d0729507049cec9673aa1a679f9adefd683",
+                "reference": "c5e61d0729507049cec9673aa1a679f9adefd683",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -907,7 +914,7 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2019-11-21T09:37:46+00:00"
+            "time": "2019-12-10T11:17:38+00:00"
         },
         {
             "name": "psr/http-message",
@@ -1137,12 +1144,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "9986511fcd47e8b8ec491884cc18beee1773548a"
+                "reference": "181dd66fd666ed397991ded7b725fe90a8a00413"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/9986511fcd47e8b8ec491884cc18beee1773548a",
-                "reference": "9986511fcd47e8b8ec491884cc18beee1773548a",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/181dd66fd666ed397991ded7b725fe90a8a00413",
+                "reference": "181dd66fd666ed397991ded7b725fe90a8a00413",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1169,7 +1176,7 @@
                 "composer/composer": "<=1-alpha.11",
                 "contao-components/mediaelement": ">=2.14.2,<2.21.1",
                 "contao/core": ">=2,<3.5.39",
-                "contao/core-bundle": ">=4,<4.4.39|>=4.5,<4.7.5",
+                "contao/core-bundle": ">=4,<4.4.46|>=4.5,<4.8.6",
                 "contao/listing-bundle": ">=4,<4.4.8",
                 "datadog/dd-trace": ">=0.30,<0.30.2",
                 "david-garcia/phpwhois": "<=4.3.1",
@@ -1183,8 +1190,8 @@
                 "doctrine/mongodb-odm-bundle": ">=2,<3.0.1",
                 "doctrine/orm": ">=2,<2.4.8|>=2.5,<2.5.1",
                 "dompdf/dompdf": ">=0.6,<0.6.2",
-                "drupal/core": ">=7,<7.67|>=8,<8.6.16|>=8.7,<8.7.1|>8.7.3,<8.7.5",
-                "drupal/drupal": ">=7,<7.67|>=8,<8.6.16|>=8.7,<8.7.1|>8.7.3,<8.7.5",
+                "drupal/core": ">=7,<8.7.11|>=8.8,<8.8.1",
+                "drupal/drupal": ">=7,<8.7.11|>=8.8,<8.8.1",
                 "erusev/parsedown": "<1.7.2",
                 "ezsystems/ezplatform-admin-ui": ">=1.3,<1.3.5|>=1.4,<1.4.4",
                 "ezsystems/ezpublish-kernel": ">=5.3,<5.3.12.1|>=5.4,<5.4.13.1|>=6,<6.7.9.1|>=6.8,<6.13.5.1|>=7,<7.2.4.1|>=7.3,<7.3.2.1",
@@ -1216,7 +1223,7 @@
                 "league/commonmark": "<0.18.3",
                 "magento/magento1ce": "<1.9.4.3",
                 "magento/magento1ee": ">=1,<1.14.4.3",
-                "magento/product-community-edition": ">=2,<2.2.10|>=2.3,<2.3.2",
+                "magento/product-community-edition": ">=2,<2.2.10|>=2.3,<2.3.2-p.2",
                 "monolog/monolog": ">=1.8,<1.12",
                 "namshi/jose": "<2.2",
                 "onelogin/php-saml": "<2.10.4",
@@ -1239,6 +1246,7 @@
                 "pusher/pusher-php-server": "<2.2.1",
                 "robrichards/xmlseclibs": ">=1,<3.0.4",
                 "sabre/dav": ">=1.6,<1.6.99|>=1.7,<1.7.11|>=1.8,<1.8.9",
+                "scheb/two-factor-bundle": "<3.26|>=4,<4.11",
                 "sensiolabs/connect": "<4.2.3",
                 "serluck/phpwhois": "<=4.2.6",
                 "shopware/shopware": "<5.3.7",
@@ -1298,8 +1306,8 @@
                 "titon/framework": ">=0,<9.9.99",
                 "truckersmp/phpwhois": "<=4.3.1",
                 "twig/twig": "<1.38|>=2,<2.7",
-                "typo3/cms": ">=6.2,<6.2.30|>=7,<7.6.32|>=8,<8.7.27|>=9,<9.5.8",
-                "typo3/cms-core": ">=8,<8.7.27|>=9,<9.5.8",
+                "typo3/cms": ">=6.2,<6.2.30|>=7,<7.6.32|>=8,<8.7.30|>=9,<9.5.12|>=10,<10.2.1",
+                "typo3/cms-core": ">=8,<8.7.30|>=9,<9.5.12|>=10,<10.2.1",
                 "typo3/flow": ">=1,<1.0.4|>=1.1,<1.1.1|>=2,<2.0.1|>=2.3,<2.3.16|>=3,<3.0.10|>=3.1,<3.1.7|>=3.2,<3.2.7|>=3.3,<3.3.5",
                 "typo3/neos": ">=1.1,<1.1.3|>=1.2,<1.2.13|>=2,<2.0.4",
                 "typo3/phar-stream-wrapper": ">=1,<2.1.1|>=3,<3.1.1",
@@ -1353,7 +1361,7 @@
                 }
             ],
             "description": "Prevents installation of composer packages with known security vulnerabilities: no API, simply require it",
-            "time": "2019-11-29T17:22:08+00:00"
+            "time": "2019-12-21T14:43:42+00:00"
         }
     ],
     "aliases": [],

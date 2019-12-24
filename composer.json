@@ -1,7 +1,4 @@
 {
-  "config": {
-    "optimize-autoloader": true
-  },
   "require": {
     "alibabacloud/sdk": "^1.2",
     "guzzlehttp/guzzle": "^6.0",

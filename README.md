@@ -1,6 +1,6 @@
 # aliyun-ddns-php
 
-![](https://img.shields.io/badge/version-v7-blue.svg)
+<a href="https://github.com/Hill-98/aliyun-ddns-php/releases"><img alt="Github Releases" src="https://img.shields.io/github/v/release/Hill-98/aliyun-ddns-php"></a>
 
 ## 简介 
 
@@ -18,20 +18,8 @@
 
 ## 运行环境
 
-* [PHP](https://php.net) 7.0 +
-* [Composer](https://getcomposer.org) （可选）
+* [PHP](https://php.net) 7.4 +
 * PHP 扩展：`hash`、`json`、`openssl`
-
-#### Debian 9 + / Ubuntu 16.04 +
-```
-sudo apt install php
-```
-
-#### OpenWrt
-```
-opkg install php7-cli php7-mod-hash php7-mod-json php7-mod-openssl
-opkg install zoneinfo-core zoneinfo-asia # 安装时区数据库，如果你不是使用的 Asia 时区，请安装对应的时区。
-```
 
 ## 安装
 
@@ -39,7 +27,7 @@ opkg install zoneinfo-core zoneinfo-asia # 安装时区数据库，如果你不�
 ```
 git clone https://github.com/Hill-98/aliyun-ddns-php.git /opt/AliDDNS
 cd /opt/AliDDNS
-composer install
+composer install --no-dev -o
 ```
 
 如果你没有安装 Composer，请[点击这里](https://github.com/Hill-98/aliyun-ddns-php/releases/latest/download/aliyun-ddns-php.zip)下载最新版本。
