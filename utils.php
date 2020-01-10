@@ -12,10 +12,10 @@ function getIP(int $ipType): ?string
 {
     switch ($ipType) {
         case IP_TYPE_V4:
-            $apiUrl = 'http://v4.ip.zxinc.org';
+            $apiUrl = 'http://v4.ip.ss.zxinc.org/getip';
             break;
         case IP_TYPE_V6:
-            $apiUrl = 'http://v6.ip.zxinc.org';
+            $apiUrl = 'http://v6.ip.ss.zxinc.org/getip';
             break;
         default:
             throw new InvalidArgumentException('$ipType only is IP_TYPE_V4 or IP_TYPE_V6');
