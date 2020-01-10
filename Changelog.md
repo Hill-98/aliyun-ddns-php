@@ -1,5 +1,8 @@
 # 更新日志
 
+### V11
+* 修复获取 IP 地址 API
+
 ### v10
 * 重构代码
 * 分离 `CONFIG_UPDATE_ROUTER` 选项为 `CONFIG_UPDATE_FIREWALL` 和 `CONFIG_UPDATE_DNSMASQ`，现在可以单独控制防火墙规则和 Dnsmasq 解析的自动更新了。
@@ -33,5 +36,5 @@
 * 添加防止被重复运行机制
 * 使用类自动加载
 
-### v1:  
+### v1:
 * 初始提交

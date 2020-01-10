@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6b41af2fd71d750a4d0e7d05264c247e",
+    "content-hash": "c8e4466465b9b767377a5152af5e87dd",
     "packages": [
         {
             "name": "adbario/php-dot-notation",
@@ -63,16 +63,16 @@
         },
         {
             "name": "alibabacloud/client",
-            "version": "1.5.19",
+            "version": "1.5.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aliyun/openapi-sdk-php-client.git",
-                "reference": "4bbe05e1beadcea033bb8ef05b56763913fe8955"
+                "reference": "e18c5d79072417250f6faf0c1c8ca8bd3fd73f2b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aliyun/openapi-sdk-php-client/zipball/4bbe05e1beadcea033bb8ef05b56763913fe8955",
-                "reference": "4bbe05e1beadcea033bb8ef05b56763913fe8955",
+                "url": "https://api.github.com/repos/aliyun/openapi-sdk-php-client/zipball/e18c5d79072417250f6faf0c1c8ca8bd3fd73f2b",
+                "reference": "e18c5d79072417250f6faf0c1c8ca8bd3fd73f2b",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -146,20 +146,20 @@
                 "sdk",
                 "tool"
             ],
-            "time": "2019-12-17T04:45:39+00:00"
+            "time": "2019-12-30T01:59:20+00:00"
         },
         {
             "name": "alibabacloud/sdk",
-            "version": "1.8.18",
+            "version": "1.8.53",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aliyun/openapi-sdk-php.git",
-                "reference": "23cf5ee6eb235d02b57e359771dd46760e34e811"
+                "reference": "c8ddac96ed33660106d615c9fe6b6bafc91d3417"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aliyun/openapi-sdk-php/zipball/23cf5ee6eb235d02b57e359771dd46760e34e811",
-                "reference": "23cf5ee6eb235d02b57e359771dd46760e34e811",
+                "url": "https://api.github.com/repos/aliyun/openapi-sdk-php/zipball/c8ddac96ed33660106d615c9fe6b6bafc91d3417",
+                "reference": "c8ddac96ed33660106d615c9fe6b6bafc91d3417",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -280,6 +280,7 @@
                 "alibabacloud/lubanruler": "self.version",
                 "alibabacloud/market": "self.version",
                 "alibabacloud/mopen": "self.version",
+                "alibabacloud/mpserverless": "self.version",
                 "alibabacloud/mts": "self.version",
                 "alibabacloud/multimediaai": "self.version",
                 "alibabacloud/nas": "self.version",
@@ -331,6 +332,7 @@
                 "alibabacloud/ubsmsinner": "self.version",
                 "alibabacloud/uis": "self.version",
                 "alibabacloud/unimkt": "self.version",
+                "alibabacloud/visionai": "self.version",
                 "alibabacloud/vod": "self.version",
                 "alibabacloud/vpc": "self.version",
                 "alibabacloud/vs": "self.version",
@@ -378,7 +380,7 @@
                 "library",
                 "sdk"
             ],
-            "time": "2019-12-20T13:14:48+00:00"
+            "time": "2020-01-10T06:08:15+00:00"
         },
         {
             "name": "clagiordano/weblibs-configmanager",
@@ -789,16 +791,16 @@
         },
         {
             "name": "mtdowling/jmespath.php",
-            "version": "2.4.0",
+            "version": "2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jmespath/jmespath.php.git",
-                "reference": "adcc9531682cf87dfda21e1fd5d0e7a41d292fac"
+                "reference": "52168cb9472de06979613d365c7f1ab8798be895"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jmespath/jmespath.php/zipball/adcc9531682cf87dfda21e1fd5d0e7a41d292fac",
-                "reference": "adcc9531682cf87dfda21e1fd5d0e7a41d292fac",
+                "url": "https://api.github.com/repos/jmespath/jmespath.php/zipball/52168cb9472de06979613d365c7f1ab8798be895",
+                "reference": "52168cb9472de06979613d365c7f1ab8798be895",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -808,10 +810,12 @@
                 ]
             },
             "require": {
-                "php": ">=5.4.0"
+                "php": ">=5.4.0",
+                "symfony/polyfill-mbstring": "^1.4"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.0"
+                "composer/xdebug-handler": "^1.2",
+                "phpunit/phpunit": "^4.8.36|^7.5.15"
             },
             "bin": [
                 "bin/jp.php"
@@ -819,7 +823,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0-dev"
+                    "dev-master": "2.5-dev"
                 }
             },
             "autoload": {
@@ -846,7 +850,7 @@
                 "json",
                 "jsonpath"
             ],
-            "time": "2016-12-03T22:08:25+00:00"
+            "time": "2019-12-30T18:03:34+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -1144,12 +1148,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "181dd66fd666ed397991ded7b725fe90a8a00413"
+                "reference": "67ac6ea8f4a078c3c9b7aec5d7ae70f098c37389"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/181dd66fd666ed397991ded7b725fe90a8a00413",
-                "reference": "181dd66fd666ed397991ded7b725fe90a8a00413",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/67ac6ea8f4a078c3c9b7aec5d7ae70f098c37389",
+                "reference": "67ac6ea8f4a078c3c9b7aec5d7ae70f098c37389",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1190,8 +1194,9 @@
                 "doctrine/mongodb-odm-bundle": ">=2,<3.0.1",
                 "doctrine/orm": ">=2,<2.4.8|>=2.5,<2.5.1",
                 "dompdf/dompdf": ">=0.6,<0.6.2",
-                "drupal/core": ">=7,<8.7.11|>=8.8,<8.8.1",
-                "drupal/drupal": ">=7,<8.7.11|>=8.8,<8.8.1",
+                "drupal/core": ">=7,<7.69|>=8,<8.7.11|>=8.8,<8.8.1",
+                "drupal/drupal": ">=7,<7.69|>=8,<8.7.11|>=8.8,<8.8.1",
+                "endroid/qr-code-bundle": "<3.4.2",
                 "erusev/parsedown": "<1.7.2",
                 "ezsystems/ezplatform-admin-ui": ">=1.3,<1.3.5|>=1.4,<1.4.4",
                 "ezsystems/ezpublish-kernel": ">=5.3,<5.3.12.1|>=5.4,<5.4.13.1|>=6,<6.7.9.1|>=6.8,<6.13.5.1|>=7,<7.2.4.1|>=7.3,<7.3.2.1",
@@ -1246,7 +1251,7 @@
                 "pusher/pusher-php-server": "<2.2.1",
                 "robrichards/xmlseclibs": ">=1,<3.0.4",
                 "sabre/dav": ">=1.6,<1.6.99|>=1.7,<1.7.11|>=1.8,<1.8.9",
-                "scheb/two-factor-bundle": "<3.26|>=4,<4.11",
+                "scheb/two-factor-bundle": ">=0,<3.26|>=4,<4.11",
                 "sensiolabs/connect": "<4.2.3",
                 "serluck/phpwhois": "<=4.2.6",
                 "shopware/shopware": "<5.3.7",
@@ -1361,7 +1366,7 @@
                 }
             ],
             "description": "Prevents installation of composer packages with known security vulnerabilities: no API, simply require it",
-            "time": "2019-12-21T14:43:42+00:00"
+            "time": "2020-01-06T19:16:46+00:00"
         }
     ],
     "aliases": [],
@@ -1372,6 +1377,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
+        "php": "^7.4",
         "ext-json": "*"
     },
     "platform-dev": []

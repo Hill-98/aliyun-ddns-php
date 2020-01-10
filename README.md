@@ -2,11 +2,11 @@
 
 <a href="https://github.com/Hill-98/aliyun-ddns-php/releases"><img alt="Github Releases" src="https://img.shields.io/github/v/release/Hill-98/aliyun-ddns-php"></a>
 
-## 简介 
+## 简介
 
-这是一个基于 [Aliyun OpenAPI SDK](https://github.com/aliyun/aliyun-openapi-php-sdk) 的 PHP 程序  
+这是一个基于 [Aliyun OpenAPI SDK](https://github.com/aliyun/aliyun-openapi-php-sdk) 的 PHP 程序
 
-它能做的事就是帮你把指定 IP 更新到阿里云解析，你可以指定 IP，也可以让它自动获取 IPv4 或 IPv6。  
+它能做的事就是帮你把指定 IP 更新到阿里云解析，你可以指定 IP，也可以让它自动获取 IPv4 或 IPv6。
 
 鉴于在 IPv6 环境下的使用以及安全性，它还支持自动配置 OpenWrt 的防火墙规则，在开放指定端口的同时保证其他 IPv6 设备的安全性。
 
@@ -58,7 +58,7 @@ update-rule |×    |true       |仅更新 OpenWrt规则|
 **CLI:** `php /opt/AliDDNS/index.php --name test --value ipv6`  
 **CLI:** `php /opt/AliDDNS/index.php --name test --value ipv6 --update-rule true`
 
->假如`CONFIG_DOMAIN`的值是`example.com`，以上示例将把设备的 IPv6 地址解析到`test.example.com`。
+>假如 `CONFIG_DOMAIN` 的值是 `example.com`，以上示例将把设备的 IPv6 地址解析到 `test.example.com`。
 
 具体的使用方法可以参考：[Wiki](https://github.com/Hill-98/aliyun-ddns-php/wiki/%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95)
 
