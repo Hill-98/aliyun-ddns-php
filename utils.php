@@ -12,16 +12,18 @@ function getIP(int $ipType): ?string
 {
     switch ($ipType) {
         case IP_TYPE_V4:
-            $apiUrl = 'http://v4.ip.ss.zxinc.org/getip';
+            $ipResolve = 'v4';
             break;
         case IP_TYPE_V6:
-            $apiUrl = 'http://v6.ip.ss.zxinc.org/getip';
+            $ipResolve = 'v6';
             break;
         default:
             throw new InvalidArgumentException('$ipType only is IP_TYPE_V4 or IP_TYPE_V6');
     }
     $client = new Client([
-        'base_uri' => $apiUrl
+        'base_uri' => 'https://ip.lsy.cn/getip',
+        'connect_timeout' => 3,
+        'force_ip_resolve' => $ipResolve
     ]);
     try {
         $response = $client->get('/getip');
