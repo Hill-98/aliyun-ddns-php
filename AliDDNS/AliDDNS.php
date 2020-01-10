@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace AliDDNS;
 
@@ -84,11 +85,11 @@ class AliDDNS
      * AliDNS RPC 调用函数
      * @param string $action 请求方法
      * @param array $options 请求参数
-     * @return Result|bool
+     * @return Result|null
      */
-    private static function AliDNS_RPC(string $action, array $options)
+    private static function AliDNS_RPC(string $action, array $options): ?Result
     {
-        $result = false;
+        $result = null;
         try {
             $result = AlibabaCloud::rpc()
                 ->product('Alidns')

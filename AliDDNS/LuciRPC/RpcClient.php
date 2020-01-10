@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace AliDDNS\LuciRPC;
 
@@ -74,7 +75,7 @@ class RpcClient
         $result = false;
         if ($response->getStatusCode() === 200) {
             try {
-                $json = json_decode($response->getBody(), true, 512, JSON_THROW_ON_ERROR);
+                $json = json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
                 if (!empty($json) && isset($json['result'])) {
                     $result = true;
                 }

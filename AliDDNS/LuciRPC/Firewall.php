@@ -39,7 +39,8 @@ class Firewall
      * @param string $family IP 类型
      * @throws Exception
      */
-    public static function refreshRule(string $destIP, string $family) {
+    public static function refreshRule(string $destIP, string $family): void
+    {
         $firewallRule = self::firewallRuleCheck($destIP, $family);
         self::deleteOldRule($firewallRule['mark']);
         self::updateRules($firewallRule);

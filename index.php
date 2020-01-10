@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace AliDDNS;
 
@@ -57,7 +58,7 @@ if (PHP_SAPI === 'cli') {
         $value .= ':';
     }
     unset($value);
-    $args = getopt(null, $argKey); // 读取命令行参数
+    $args = getopt('', $argKey); // 读取命令行参数
 } else {
     // 遍历 GET 参数
     foreach ($argKey as $key) {
