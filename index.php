@@ -82,7 +82,7 @@ if ($ip === 'ipv4' || $ip === 'ipv6') {
     Logger::send(Logger::INFO, "Auto Get IP: $ip");
     try {
         $ip = getIP($ipType);
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         Logger::send(Logger::ERROR, "Auto Get IP failed: {$e->getMessage()}", true);
         exit();
     }

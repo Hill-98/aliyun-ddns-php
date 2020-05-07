@@ -25,7 +25,7 @@ function getIP(int $ipType): ?string
     }
     $client = new Client([
         'base_uri' => $baseUri,
-        'connect_timeout' => 3,
+        'connect_timeout' => 10,
         'force_ip_resolve' => $ipResolve
     ]);
     try {
