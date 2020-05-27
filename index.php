@@ -11,7 +11,7 @@ use Exception;
 require __DIR__ . '/vendor/autoload.php';
 $firstArg = $argv[1] ?? '';
 if (strtolower($firstArg) === 'version') {
-    exit(VERSION . PHP_EOL);
+    exit('v'.VERSION.PHP_EOL);
 }
 if (!file_exists(__DIR__ . '/config.php')) {
     exit('config.php not exist.');

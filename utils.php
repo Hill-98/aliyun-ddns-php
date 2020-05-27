@@ -1,42 +1,44 @@
 <?php
-declare(strict_types=1);
 
-use GuzzleHttp\Client;
+declare(strict_types=1);
 
 /**
  * @param int $ipType
- * @return string|null
+ * @return string
  * @throws Exception
  */
-function getIP(int $ipType): ?string
+function getIP(int $ipType): string
 {
-    $baseUri = '';
     switch ($ipType) {
         case IP_TYPE_V4:
-            $ipResolve = 'v4';
-            $baseUri = 'https://ip.lsy.cn/getip';
+            $queryType = 'A';
+            $nameservers = [
+                '208.67.222.123',
+                '208.67.220.123',
+            ];
             break;
         case IP_TYPE_V6:
-            $ipResolve = 'v6';
-            $baseUri = 'https://api-ipv6.ip.sb/ip';
+            $queryType = 'AAAA';
+            $nameservers = [
+                '2620:119:35::35',
+                '2620:119:53::53',
+            ];
             break;
         default:
             throw new InvalidArgumentException('$ipType only is IP_TYPE_V4 or IP_TYPE_V6');
     }
-    $client = new Client([
-        'base_uri' => $baseUri,
-        'connect_timeout' => 10,
-        'force_ip_resolve' => $ipResolve
+    $resolver = new Net_DNS2_Resolver([
+        'nameservers' => $nameservers,
+        'dns_port' => 5353,
+        'recurse' => false,
+        'dnssec' => true,
     ]);
-    try {
-        $response = $client->get(null);
-        $ip = str_replace(["\r\n", "\n"], '', $response->getBody());
-        // 验证获取到的 IP 是否正确
-        if (filter_var($ip, FILTER_VALIDATE_IP, $ipType) === $ip) {
-            return $ip;
-        }
-        throw new UnexpectedValueException('IP format is incorrect.');
-    } catch (Exception $e) {
-        throw $e;
+    $result = $resolver->query('myip.opendns.com', $queryType);
+    // 清理 IPv6 地址多余的 :0
+    $ip = inet_ntop(inet_pton($result->answer[0]->address));
+    // 验证获取到的 IP 是否正确
+    if (filter_var($ip, FILTER_VALIDATE_IP, $ipType) === $ip) {
+        return $ip;
     }
+    throw new UnexpectedValueException('IP format is incorrect.');
 }
