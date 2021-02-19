@@ -69,7 +69,7 @@ class Firewall
         if (empty($firewallRule['mark'])) {
             // 用防火墙规则名称的 SHA1 HASH 前六位作为标记
             $firewallRule['mark'] = substr(sha1($firewallRule['name']), -6);
-            file_put_contents(FIREWALL_RULE_FILENAME, json_encode($firewallRule, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE, 512));
+            file_put_contents(FIREWALL_RULE_FILENAME, json_encode($firewallRule, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
         }
         $firewallRule['family'] = $family;
         $firewallRule['dest_ip'] = $destIP;
@@ -111,10 +111,10 @@ class Firewall
                 $key
             ];
             // 查询规则名称是否存在特征值
-            if (strpos($item['name'], "[$mark]") !== false) {
+            if (str_contains($item['name'], "[$mark]")) {
                 try {
                     RpcClient::RPC('uci', 'delete', $params);
-                } catch (Exception $e) {
+                } catch (Exception) {
                     Logger::send(Logger::ERROR, "Delete firewall rule failed: {$item['name']}");
                 }
             }
@@ -139,7 +139,7 @@ class Firewall
             $name = $rule['name'];
             try {
                 $response = RpcClient::RPC('uci', 'add', $params);
-            } catch (Exception $e) {
+            } catch (Exception) {
                 if (!in_array($name, $failedRule, true)) {
                     $failedRule[] = $name;
                     Logger::send(Logger::ERROR, "Add firewall rule section failed: $name");
@@ -171,7 +171,7 @@ class Firewall
                 ];
                 try {
                     RpcClient::RPC('uci', 'set', $params);
-                } catch (Exception $e) {
+                } catch (Exception) {
                     if (!in_array($name, $failedRule, true)) {
                         $failedRule[] = $name;
                         Logger::send(Logger::ERROR, "Set firewall rule value failed: $name - $uciSection.$key.$value");

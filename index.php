@@ -107,7 +107,7 @@ if ($args['update-rule'] ?? '' !== 'true') {
     try {
         AliDDNS::resolve($config);
         Logger::send(Logger::INFO, "AliDDNS success: $text");
-    } catch (Exception $e) {
+    } catch (Exception) {
         Logger::send(Logger::ERROR, "AliDDNS failed: $text", true);
     }
 }

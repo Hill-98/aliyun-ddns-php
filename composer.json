@@ -11,13 +11,12 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": "^7.4",
-        "alibabacloud/sdk": "^1.2",
-        "guzzlehttp/guzzle": "^6.0",
-        "phpmailer/phpmailer": "^6.0",
-        "monolog/monolog": "^1.24",
-        "pear/net_dns2": "^1.4",
-        "ext-json": "*"
+        "php": "^8.0",
+        "alibabacloud/sdk": "^1.8",
+        "guzzlehttp/guzzle": "^6.5",
+        "phpmailer/phpmailer": "^6.2",
+        "monolog/monolog": "^1.26",
+        "pear/net_dns2": "^1.5"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master"

@@ -18,8 +18,8 @@
 
 ## 运行环境
 
-* [PHP](https://php.net) 7.4 +
-* PHP 扩展：`hash`、`json`、`openssl`
+* [PHP](https://php.net) 8.0 +
+* PHP 扩展：`hash`、`openssl`
 
 ## 安装
 
