@@ -1,5 +1,5 @@
 <?php
-const VERSION = 16;
+const VERSION = 17;
 const BASEDIR = __DIR__;
 const FIREWALL_RULE_FILENAME = __DIR__ . '/firewall_rule.json';
 const IP_TYPE_V4 = FILTER_FLAG_IPV4;
