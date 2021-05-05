@@ -1,10 +1,9 @@
 <?php
-define('VERSION', 16);
-define('BASEDIR', __DIR__);
-define('LOG_FILENAME', __DIR__ . '/AliDDNS.log');
-define('FIREWALL_RULE_FILENAME', __DIR__ . '/firewall_rule.json');
-define('IP_TYPE_V4', FILTER_FLAG_IPV4);
-define('IP_TYPE_V6', FILTER_FLAG_IPV6);
+const VERSION = 16;
+const BASEDIR = __DIR__;
+const FIREWALL_RULE_FILENAME = __DIR__ . '/firewall_rule.json';
+const IP_TYPE_V4 = FILTER_FLAG_IPV4;
+const IP_TYPE_V6 = FILTER_FLAG_IPV6;
 
 /**
  * 兼容旧的配置文件
