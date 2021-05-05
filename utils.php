@@ -34,11 +34,14 @@ function getIP(int $ipType): string
         'dnssec' => true,
     ]);
     $result = $resolver->query('myip.opendns.com', $queryType);
+    if (!isset($result->answer[0]->address)) {
+        throw new UnexpectedValueException('IP not found');
+    }
     // 清理 IPv6 地址多余的 :0
     $ip = inet_ntop(inet_pton($result->answer[0]->address));
     // 验证获取到的 IP 是否正确
     if (filter_var($ip, FILTER_VALIDATE_IP, $ipType) === $ip) {
         return $ip;
     }
-    throw new UnexpectedValueException('IP format is incorrect.');
+    throw new UnexpectedValueException('IP format is incorrect');
 }
