@@ -9,12 +9,11 @@
             "email": "lufanzhong@gmail.com"
         }
     ],
-    "minimum-stability": "stable",
     "require": {
         "php": "^8.0",
         "alibabacloud/sdk": "^1.8",
         "guzzlehttp/guzzle": "^7.3",
-        "phpmailer/phpmailer": "^6.4.1",
+        "phpmailer/phpmailer": "^6.5",
         "monolog/monolog": "^2.2",
         "pear/net_dns2": "^1.5"
     },
@@ -29,5 +28,12 @@
         "psr-4": {
             "AliDDNS\\": "AliDDNS"
         }
-    }
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
 }
