@@ -64,7 +64,9 @@ class UtilsTest extends TestCase
 
         $this->assertCheckFirewallRuleError(['rules' => ['test' => '']], 'rules.test not array');
 
-        $this->assertCheckFirewallRuleError(['rules' => ['test' => ['name' => 'x', 'src_port' => 1]]], 'rules.test.src_port not string');
+        $this->assertCheckFirewallRuleError(['rules' => ['test' => ['target' => 1]]], 'rules.test.target not string');
+
+        $this->assertCheckFirewallRuleError(['rules' => ['test' => ['target' => 'x']]], 'Invalid rules.test.target');
 
         $config = [
             'proto' => 'tcp',
