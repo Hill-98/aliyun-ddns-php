@@ -8,9 +8,8 @@
         "src_port": "",
         "target": "ACCEPT",
         "extra": "",
-        "rules": [
-            {
-                "name": "HTTP",
+        "rules": {
+            "HTTP": {
                 "proto": "tcp",
                 "dest": "lan",
                 "dest_port": "80",
@@ -21,6 +20,6 @@
                 "target": "ACCEPT",
                 "extra": ""
             }
-        ]
+        }
     }
 }
