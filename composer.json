@@ -2,6 +2,7 @@
     "name": "hill-98/aliyun-ddns-php",
     "description": "Alibaba Cloud DDNS for PHP",
     "type": "project",
+    "version": "2.0.0",
     "license": "GPL-3.0",
     "authors": [
         {
@@ -11,22 +12,27 @@
     ],
     "require": {
         "php": "^8.0",
-        "alibabacloud/sdk": "^1.8",
+        "alibabacloud/alidns": "^1.8",
         "guzzlehttp/guzzle": "^7.3",
-        "phpmailer/phpmailer": "^6.5",
         "monolog/monolog": "^2.2",
-        "pear/net_dns2": "^1.5"
+        "pear/net_dns2": "^1.5",
+        "swiftmailer/swiftmailer": "^6.2"
     },
     "require-dev": {
+        "phpunit/phpunit": "^9.5",
         "roave/security-advisories": "dev-latest"
     },
     "autoload": {
         "files": [
-            "define.php",
             "utils.php"
         ],
         "psr-4": {
-            "AliDDNS\\": "AliDDNS"
+            "LuciRpc\\": "LuciRpc"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests"
         }
     },
     "config": {
@@ -34,6 +40,11 @@
         "sort-packages": true,
         "optimize-autoloader": true
     },
-    "minimum-stability": "stable",
+    "scripts": {
+        "post-root-package-install": [
+            "@php -r \"file_exists('config.php') || copy('config.example.php', 'config.php');\""
+        ]
+    },
+    "minimum-stability": "dev",
     "prefer-stable": true
 }

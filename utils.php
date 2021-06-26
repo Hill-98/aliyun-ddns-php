@@ -2,31 +2,84 @@
 
 declare(strict_types=1);
 
-/**
- * @param int $ipType
- * @return string
- * @throws Exception
- */
-function getIP(int $ipType): string
+function checkFirewallRule(array $config): void
 {
-    switch ($ipType) {
-        case IP_TYPE_V4:
-            $queryType = 'A';
-            $nameservers = [
-                '208.67.222.123',
-                '208.67.220.123',
-            ];
-            break;
-        case IP_TYPE_V6:
-            $queryType = 'AAAA';
-            $nameservers = [
-                '2620:119:35::35',
-                '2620:119:53::53',
-            ];
-            break;
-        default:
-            throw new InvalidArgumentException('$ipType only is IP_TYPE_V4 or IP_TYPE_V6');
+    static $keyToType = [
+        'proto' => 'string',
+        'dest' => 'string',
+        'dest_port' => 'string',
+        'src' => 'string',
+        'src_ip' => 'array',
+        'src_mac' => 'array',
+        'src_port' => 'string',
+        'target' => 'string',
+        'extra' => 'string',
+        'rules' => 'array'
+    ];
+    static $targets = ['DROP', 'ACCEPT', 'REJECT', 'NOTRACK', 'HELPER', 'MARK_SET', 'MARK_XOR', 'DSCP'];
+    $checkValue = static function (string $key, $value) use ($targets): bool {
+        if (empty($value)) {
+            return true;
+        }
+        if ($key === 'dest_port' || $key === 'src_port') {
+            $ports = explode('-', $value);
+            foreach ($ports as $port) {
+                if (!is_numeric($port)) {
+                    return false;
+                }
+            }
+            $port1 = (int) array_shift($ports);
+            $port2 = array_shift($ports) ?? 65535;
+            $port2 = (int) $port2;
+            return $port1 > 0 && $port2 <= 65535 && $port1 < $port2;
+        }
+        return match ($key) {
+            'src_ip' => count(array_filter($value, static fn($v) => filter_var($v, FILTER_VALIDATE_IP) !== $v )) === 0,
+            'src_mac' => count(array_filter($value, static fn($v) => filter_var($v, FILTER_VALIDATE_MAC) !== $v )) === 0,
+            'target' => in_array(strtoupper($value), $targets, true),
+            default => true,
+        };
+    };
+    foreach ($config as $key => $value) {
+        $type = $keyToType[$key] ?? null;
+        if ($type && !call_user_func("is_$type", $value)) {
+            throw new InvalidArgumentException("$key not $type");
+        }
+        if (!$checkValue($key, $value)) {
+            throw new InvalidArgumentException("Invalid $key");
+        }
     }
+    $rules = $config['rules'] ?? [];
+    foreach ($rules as $index => $item) {
+        if (!is_array($item)) {
+            throw new InvalidArgumentException("rules.$index not array");
+        }
+        foreach ($item as $key => $value) {
+            $type = $keyToType[$key] ?? null;
+            if ($type && !call_user_func("is_$type", $value)) {
+                throw new InvalidArgumentException("rules.$index.$key not $type");
+            }
+            if (!$checkValue($key, $value)) {
+                throw new InvalidArgumentException("Invalid rules.$index.$key");
+            }
+        }
+    }
+}
+
+/**
+ * 获取公共 IP
+ *
+ * @param  bool  $ipv4
+ * @return string|null
+ * @throws Net_DNS2_Exception
+ */
+function getPublicIP(bool $ipv4 = false): ?string
+{
+    $queryType = $ipv4 ? 'A' : 'AAAA';
+    $nameservers = $ipv4
+        ? ['208.67.222.123', '208.67.220.123']
+        : ['2620:119:35::35', '2620:119:53::53'];
+
     $resolver = new Net_DNS2_Resolver([
         'nameservers' => $nameservers,
         'dns_port' => 5353,
@@ -34,14 +87,12 @@ function getIP(int $ipType): string
         'dnssec' => true,
     ]);
     $result = $resolver->query('myip.opendns.com', $queryType);
-    if (!isset($result->answer[0]->address)) {
-        throw new UnexpectedValueException('IP not found');
+    foreach ($result->answer as $answer) {
+        $ip = $answer->address ?? null;
+        if (!empty($ip) && filter_var($ip, FILTER_VALIDATE_IP) === $ip) {
+            // 如果是 IPv6，清理地址多余的 :0
+            return $ipv4 ? $ip : inet_ntop(inet_pton($ip));
+        }
     }
-    // 清理 IPv6 地址多余的 :0
-    $ip = inet_ntop(inet_pton($result->answer[0]->address));
-    // 验证获取到的 IP 是否正确
-    if (filter_var($ip, FILTER_VALIDATE_IP, $ipType) === $ip) {
-        return $ip;
-    }
-    throw new UnexpectedValueException('IP format is incorrect');
+    return null;
 }

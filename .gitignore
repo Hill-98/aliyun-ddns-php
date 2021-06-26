@@ -1,10 +1,9 @@
 .idea/
 .vscode/
+vendor/
+.phpunit.result.cache
 
 # AliDDNS
-AliDDNS.lock
-AliDDNS.log
 config.php
-firewall_rule.json
-test.php
-vendor/
+firewall_rules.json
+

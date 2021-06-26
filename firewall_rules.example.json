@@ -1,0 +1,26 @@
+{
+    "example": {
+        "proto": "tcp",
+        "dest": "lan",
+        "src": "wan",
+        "src_ip": [],
+        "src_mac": [],
+        "src_port": "",
+        "target": "ACCEPT",
+        "extra": "",
+        "rules": [
+            {
+                "name": "HTTP",
+                "proto": "tcp",
+                "dest": "lan",
+                "dest_port": "80",
+                "src": "wan",
+                "src_ip": [],
+                "src_mac": [],
+                "src_port": "",
+                "target": "ACCEPT",
+                "extra": ""
+            }
+        ]
+    }
+}

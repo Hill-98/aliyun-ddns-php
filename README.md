@@ -1,77 +1,67 @@
 # aliyun-ddns-php
 
-<a href="https://github.com/Hill-98/aliyun-ddns-php/releases"><img alt="Github Releases" src="https://img.shields.io/github/v/release/Hill-98/aliyun-ddns-php"></a>
+<a href="https://github.com/Hill-98/aliyun-ddns-php/blob/master/LICENSE"><img alt="MIT" src="https://img.shields.io/github/license/Hill-98/aliyun-ddns-php"></a>
+<a href="https://packagist.org/packages/hill-98/aliyun-ddns-php"><img alt="PHP Version" src="https://img.shields.io/packagist/php-v/hill-98/aliyun-ddns-php"></a>
+<a href="https://github.com/Hill-98/aliyun-ddns-php/releases/latest"><img alt="Github Releases" src="https://img.shields.io/github/v/release/Hill-98/aliyun-ddns-php"></a>
+<a href="https://github.com/Hill-98/aliyun-ddns-php/releases"><img alt="Github Releases Download" src="https://img.shields.io/github/downloads/Hill-98/aliyun-ddns-php/total"></a>
 
-## 简介
-
-这是一个基于 [Aliyun OpenAPI SDK](https://github.com/aliyun/aliyun-openapi-php-sdk) 的 PHP 程序
-
-它能做的事就是帮你把指定 IP 更新到阿里云解析，你可以指定 IP，也可以让它自动获取 IPv4 或 IPv6。
-
-鉴于在 IPv6 环境下的使用以及安全性，它还支持自动配置 OpenWrt 的防火墙规则，在开放指定端口的同时保证其他 IPv6 设备的安全性。
-
-它还可以自动帮你配置 OpenWrt 的 DNS 解析，确保能在第一时间使你局域网的解析生效。
-
-在解析出错或 OpenWrt 防火墙规则更新出错的时候，你可以通过配置 SMTP 来让它发送邮件提醒你。
 
 [更新日志](https://github.com/Hill-98/aliyun-ddns-php/blob/master/Changelog.md)
 
-## 运行环境
+如果你在寻找 1.0.0 版本之前的文档，请访问 [Wiki](https://github.com/Hill-98/aliyun-ddns-php/wiki) 。
 
-* [PHP](https://php.net) 8.0 +
-* PHP 扩展：`hash`、`openssl`
+## 简介
+
+它不只是 DDNS
+
+它可以通过路由器/网关的 dnsmasq 将域名解析到本地 IP，实现本地 0 延迟响应解析。
+
+鉴于安全性，它支持自动设置路由器/网关的防火墙规则，特别适合 IPv6 环境使用。
+
+如果担心执行时发生错误，它支持通过电子邮件发送错误信息。
 
 ## 安装
 
-如果你安装了 Composer，直接克隆本存储库到本地，使用 Composer 安装依赖。
-```
-git clone https://github.com/Hill-98/aliyun-ddns-php.git /opt/AliDDNS
-cd /opt/AliDDNS
-composer install --no-dev -o
-```
+运行需求： [PHP](https://php.net) 8.0+
 
-如果你没有安装 Composer，请[点击这里](https://github.com/Hill-98/aliyun-ddns-php/releases/latest/download/aliyun-ddns-php.zip)下载最新版本。
+[点击这里](https://github.com/Hill-98/aliyun-ddns-php/releases/latest/download/aliyun-ddns-php.zip) 下载最新版本
 
 ## 配置
 
-复制`config.example.php`并重命名为`config.php`
+复制`config.example.php`到`config.php`
 
 编辑`config.php`
 
-具体配置选项参考：[Wiki](https://github.com/Hill-98/aliyun-ddns-php/wiki/%E9%85%8D%E7%BD%AE%E9%80%89%E9%A1%B9)
+如需用路由器/网关功能，路由器必须支持 Luci RPC，且必须正确设置 `CONFIG_LUCI_RPC_URL`, `CONFIG_LUCI_USERNAME` 和 `CONFIG_LUCI_PASSWORD`
+
+如需使用电子邮件发送错误，必须正确设置电子邮件配置项，且 `CONFIG_ERROR_MAIL` 为 `true`
 
 ## 使用
 
-使用的方法非常简单，支持 GET 和 CLI 两种调用方式。
+支持 GET (POST) 和 CLI 方式运行
 
-参数名       |必须  |可选值      |说明             |备注
-------------|:---:|-----------|-----------------|---
-name        |√    |           |解析域名的主机名   |
-value       |√    |ipv4 / ipv6|解析域名的记录值   |如果传递 ipv4 或 ipv6 则自动获取对应 IP
-update-rule |×    |true       |仅更新 OpenWrt规则|
+自动执行：[文档](https://github.com/Hill-98/aliyun-ddns-php/blob/master/docs/Automation.md)
+
+参数名       | 必要 |        说明      |     备注
+------------|:---:|------------------|---------------
+domain      |  √  | 域名             | 必须存在于你的 DNS 云解析
+ip          |  √  | 解析记录的 IP     | 如果是 `ipv4` 或 `ipv6` 会自动获取对应公网 IP
+name        |  √  | 解析记录的主机记录 |
+local-ip    |  ×  | 本地 IP          | 使用路由器/网关的 dnsmasq 把解析域名指向本地 IP
+rule-name   |  ×  | 防火墙规则名称    | 自动更新路由器/网关的防火墙规则，防火墙规则配置详见 [文档](https://github.com/Hill-98/aliyun-ddns-php/blob/master/docs/FirewallRule.md)
+
+执行成功：HTTP 响应代码为 `200` 或 CLI 退出代码为 `0` 
 
 #### 示例：
 
-**GET:** `http://localhost/AliDDNS/index.php?name=test&value=ipv6`  
-**GET:** `http://localhost/AliDDNS/index.php?name=test&value=ipv6&update-rule=true`
+自动获取公网 IPv6 地址并解析到 test.example.com
 
-**CLI:** `php /opt/AliDDNS/index.php --name test --value ipv6`  
-**CLI:** `php /opt/AliDDNS/index.php --name test --value ipv6 --update-rule true`
+**GET:** `http://aliddns.localhost/index.php?domain=example.com&name=test&ip=ipv6`
 
->假如 `CONFIG_DOMAIN` 的值是 `example.com`，以上示例将把设备的 IPv6 地址解析到 `test.example.com`。
+**CLI:** `php /opt/AliDDNS/index.php --domain example.com --name test --ip ipv6`
 
-具体的使用方法可以参考：[Wiki](https://github.com/Hill-98/aliyun-ddns-php/wiki/%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95)
 
----
 
-本项目是我想要让家里设备的 IPv6 能解析到阿里云解析的域名，但是很多 Aliyun DDNS 又不支持 IPv6，而且 IPv6 的地址每次拨号或开机都会变化，如果在路由器开放所有设备的指定端口，安全性稍有不足，所以才有了本项目。
+## 贡献
 
-由于我没有公网的 IPv4，在 IPv4 这块某些地方可能考虑不周，如果你有任何想法和建议，尽情提交 [Issues](https://github.com/Hill-98/aliyun-ddns-php/issues)。
-
-Developer: 小山
-
-QQ Group: [493736074](https://jq.qq.com/?_wv=1027&k=5f7KCIY)
-
-Telegram Group: [@mivm.cn](https://t.me/mivm_cn)
-
-Donate: [https://www.mivm.cn/donate/](https://www.mivm.cn/donate/)
+欢迎 [Fork](https://github.com/Hill-98/aliyun-ddns-php/fork) 本项目并提交 [PR](https://github.com/Hill-98/aliyun-ddns-php/pulls) 。
