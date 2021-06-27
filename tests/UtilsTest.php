@@ -21,6 +21,7 @@ class UtilsTest extends TestCase
     /**
      * 测试获取公网 IP
      *
+     * @medium
      * @throws \Net_DNS2_Exception
      */
     public function testGetPublicIP(): void
