@@ -29,6 +29,6 @@ class Dnsmasq extends Helper
      */
     public function restartService(): void
     {
-        $this->client->request('sys', 'call', ["service dnsmasq restart"]);
+        $this->client->request('sys', 'call', ['service dnsmasq restart']);
     }
 }

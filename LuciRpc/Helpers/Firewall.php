@@ -21,19 +21,19 @@ class Firewall extends Helper
         'src_mac',
         'src_port',
         'target',
-        'extra'
+        'extra',
     ];
 
     /** @var array 防火墙规则默认值 */
     private const DEFAULT_VALUE = [
         'dest' => 'lan',
         'src' => 'wan',
-        'target' => 'ACCEPT'
+        'target' => 'ACCEPT',
     ];
 
     /**
      * @param  string  $name
-     * @param  array  $config
+     * @param  array   $config
      * @throws GuzzleException
      * @throws RpcRequestException
      */
@@ -53,6 +53,8 @@ class Firewall extends Helper
     }
 
     /**
+     * uci commit
+     *
      * @throws GuzzleException
      * @throws RpcRequestException
      */
@@ -73,7 +75,7 @@ class Firewall extends Helper
         $namePrefix = $this->getNamePrefix($namePrefix);
         $rules = array_filter(
             $this->client->request('uci', 'get_all', ['firewall']),
-            static fn(array $item) => $item['.type'] === 'rule'
+            static fn (array $item) => $item['.type'] === 'rule',
         );
         foreach ($rules as $section => $rule) {
             $n = $rule['name'] ?? '';

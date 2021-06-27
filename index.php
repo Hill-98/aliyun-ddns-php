@@ -21,8 +21,8 @@ function exitMessage(
     string $message,
     int $httpCode = 200,
     int $exitCode = 0,
-    int $loglevel = null
-) {
+    int $loglevel = null,
+): void {
     global $logger;
     if ($loglevel !== null && !empty($message)) {
         $logger->log($loglevel, $message);
@@ -39,11 +39,15 @@ if (!file_exists(__DIR__.'/config.php')) {
 require __DIR__.'/vendor/autoload.php';
 require __DIR__.'/config.php';
 
-$logger = new Logger('AliDDNS', [
-    new RotatingFileHandler(__DIR__.'/log/AliDDNS.log', 7), // 滚动日志记录
-], [
-    new IntrospectionProcessor(), // 记录调用的行/文件/类/方法
-]);
+$logger = new Logger(
+    'AliDDNS',
+    [
+        new RotatingFileHandler(__DIR__.'/log/AliDDNS.log', 7), // 滚动日志记录
+    ],
+    [
+        new IntrospectionProcessor(), // 记录调用的行/文件/类/方法
+    ],
+);
 // 注册为全局错误处理程序
 (new ErrorHandler($logger))->registerErrorHandler()->registerExceptionHandler()->registerFatalHandler();
 
@@ -68,17 +72,16 @@ if (!empty(CONFIG_DEBUG)) {
     error_reporting(E_ALL);
 }
 
-
 $params = [];
 $requiredParams = ['domain', 'ip', 'name'];
 $paramsKey = [
     ...$requiredParams,
     'local-ip',
-    'rule-name'
+    'rule-name',
 ];
 // 如果是命令行执行则接受命令行传参 否则接受 GET/POST 方法传参
 if (PHP_SAPI === 'cli') {
-    $paramsKey = array_map(static fn(string $value) => "$value:", $paramsKey);
+    $paramsKey = array_map(static fn (string $value) => "$value:", $paramsKey);
     $params = getopt('', $paramsKey); // 读取命令行参数
 } else {
     if (!empty(CONFIG_SECURITY_KEY) && ($_SERVER['HTTP_X_SECURITY_KEY'] ?? '') !== CONFIG_SECURITY_KEY) {
@@ -91,7 +94,7 @@ if (PHP_SAPI === 'cli') {
 }
 $params = array_map('strtolower', array_filter($params));
 
-$missParam = array_filter($requiredParams, static fn(string $key) => !isset($params[$key]));
+$missParam = array_filter($requiredParams, static fn (string $key) => !isset($params[$key]));
 
 if (count($missParam) !== 0) {
     exitMessage('missing param: '.implode(', ', $missParam), 400, 128);
@@ -247,17 +250,16 @@ if ($ruleName) {
     $firewallRule['rules'] ??= [];
     // 为每个规则设置 dest_ip 和 family
     $firewallRule['rules'] = array_map(
-        static fn(array $item) => array_merge($item, ['dest_ip' => $ip ,'family' => $isIPv4 ? 'ipv4' : 'ipv6']),
-        $firewallRule['rules']
+        static fn (array $item) => array_merge($item, ['dest_ip' => $ip, 'family' => $isIPv4 ? 'ipv4' : 'ipv6']),
+        $firewallRule['rules'],
     );
 
     $firewall = new Firewall($luciRpc);
     try {
         $firewall->delRules($ruleName);
         $firewall->addRules($ruleName, $firewallRule);
-    } catch (Throwable $e) {
+    } catch (Throwable $ex) {
         $logger->error($ex->getMessage());
         exitMessage('Failed to add rules to firewall', 500, 1, Logger::ERROR);
     }
 }
-

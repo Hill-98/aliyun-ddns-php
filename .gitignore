@@ -1,7 +1,7 @@
 .idea/
 .vscode/
 vendor/
-.phpunit.result.cache
+*.cache
 
 # AliDDNS
 config.php

@@ -14,9 +14,18 @@ function checkFirewallRule(array $config): void
         'src_port' => 'string',
         'target' => 'string',
         'extra' => 'string',
-        'rules' => 'array'
+        'rules' => 'array',
     ];
-    static $targets = ['DROP', 'ACCEPT', 'REJECT', 'NOTRACK', 'HELPER', 'MARK_SET', 'MARK_XOR', 'DSCP'];
+    static $targets = [
+        'DROP',
+        'ACCEPT',
+        'REJECT',
+        'NOTRACK',
+        'HELPER',
+        'MARK_SET',
+        'MARK_XOR',
+        'DSCP',
+    ];
     $checkValue = static function (string $key, $value) use ($targets): bool {
         if (empty($value)) {
             return true;
@@ -34,8 +43,8 @@ function checkFirewallRule(array $config): void
             return $port1 > 0 && $port2 <= 65535 && $port1 < $port2;
         }
         return match ($key) {
-            'src_ip' => count(array_filter($value, static fn($v) => filter_var($v, FILTER_VALIDATE_IP) !== $v )) === 0,
-            'src_mac' => count(array_filter($value, static fn($v) => filter_var($v, FILTER_VALIDATE_MAC) !== $v )) === 0,
+            'src_ip' => !count(array_filter($value, static fn ($v) => filter_var($v, FILTER_VALIDATE_IP) !== $v)),
+            'src_mac' => !count(array_filter($value, static fn ($v) => filter_var($v, FILTER_VALIDATE_MAC) !== $v)),
             'target' => in_array(strtoupper($value), $targets, true),
             default => true,
         };
@@ -69,8 +78,8 @@ function checkFirewallRule(array $config): void
 /**
  * 获取公共 IP
  *
- * @param  bool  $ipv4
- * @return string|null
+ * @param  bool  $ipv4  是否获取 IPv4 地址
+ * @return null|string
  * @throws Net_DNS2_Exception
  */
 function getPublicIP(bool $ipv4 = false): ?string
@@ -94,5 +103,6 @@ function getPublicIP(bool $ipv4 = false): ?string
             return $ipv4 ? $ip : inet_ntop(inet_pton($ip));
         }
     }
+
     return null;
 }

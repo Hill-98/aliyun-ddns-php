@@ -15,7 +15,7 @@ const CONFIG_LUCI_PASSWORD = 'password'; // Luci 登陆密码
 // 电子邮件设置
 const CONFIG_MAIL_SMTP = ''; // SMTP 服务器地址
 const CONFIG_MAIL_SMTP_PORT = 25; // SMTP 服务器端口
-const CONFIG_MAIL_SMTP_SSL = null; // SMTP 服务器加密类型，留空则不加密。 可选值：ssl、tls
+const CONFIG_MAIL_SMTP_SSL = null; // SMTP 服务器加密类型，留空则不加密。可选值：ssl、tls
 const CONFIG_MAIL_USERNAME = ''; // SMTP 服务器登陆用户名 留空则不使用 SMTP 验证
 const CONFIG_MAIL_PASSWORD = ''; // SMTP 服务器登陆密码
 const CONFIG_MAIL_FROM = ''; // 电子邮件发件人
@@ -23,4 +23,3 @@ const CONFIG_MAIL_TO = ''; // 电子邮件收件人
 const CONFIG_ERROR_MAIL = false; // 是否使用电子邮件发送错误日志
 
 const CONFIG_DEBUG = false; // 调试模式 输出所有异常信息
-

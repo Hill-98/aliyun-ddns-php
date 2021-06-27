@@ -23,7 +23,7 @@ class Client
         ]);
         try {
             $this->request('auth', 'login', [$username, $password]);
-        } catch (GuzzleException $ex) {
+        } catch (\Throwable) {
             throw new \RuntimeException('Luci RPC authentication failed');
         }
     }
@@ -33,19 +33,22 @@ class Client
      *
      * @param  string  $module
      * @param  string  $method
-     * @param  array  $params
+     * @param  array   $params
      * @return mixed 如果 JSON 解析失败或不存在结果，返回 null
      * @throws GuzzleException
      * @throws RpcRequestException
      */
     public function request(string $module, string $method, array $params = []): mixed
     {
-        $response = $this->client->post($module, [
-            'json' => [
-                'method' => $method,
-                'params' => $params
-            ]
-        ]);
+        $response = $this->client->post(
+            $module,
+            [
+                'json' => [
+                    'method' => $method,
+                    'params' => $params,
+                ],
+            ],
+        );
         try {
             $json = json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
         } catch (\JsonException) {
