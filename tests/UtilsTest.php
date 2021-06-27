@@ -37,16 +37,16 @@ class UtilsTest extends TestCase
      */
     public function testCheckFirewallRule(): void
     {
-        $this->assertCheckFirewallRuleError(['proto' => 1], 'proto not string');
-        $this->assertCheckFirewallRuleError(['dest' => 1], 'dest not string');
-        $this->assertCheckFirewallRuleError(['dest_port' => 1], 'dest_port not string');
-        $this->assertCheckFirewallRuleError(['src' => 1], 'src not string');
-        $this->assertCheckFirewallRuleError(['src_ip' => 1], 'src_ip not array');
-        $this->assertCheckFirewallRuleError(['src_mac' => 1], 'src_mac not array');
-        $this->assertCheckFirewallRuleError(['src_port' => 1], 'src_port not string');
-        $this->assertCheckFirewallRuleError(['target' => 1], 'target not string');
-        $this->assertCheckFirewallRuleError(['extra' => 1], 'extra not string');
-        $this->assertCheckFirewallRuleError(['rules' => 1], 'rules not array');
+        $this->assertCheckFirewallRuleError(['proto' => 1], 'proto is not string');
+        $this->assertCheckFirewallRuleError(['dest' => 1], 'dest is not string');
+        $this->assertCheckFirewallRuleError(['dest_port' => 1], 'dest_port is not string');
+        $this->assertCheckFirewallRuleError(['src' => 1], 'src is not string');
+        $this->assertCheckFirewallRuleError(['src_ip' => 1], 'src_ip is not array');
+        $this->assertCheckFirewallRuleError(['src_mac' => 1], 'src_mac is not array');
+        $this->assertCheckFirewallRuleError(['src_port' => 1], 'src_port is not string');
+        $this->assertCheckFirewallRuleError(['target' => 1], 'target is not string');
+        $this->assertCheckFirewallRuleError(['extra' => 1], 'extra is not string');
+        $this->assertCheckFirewallRuleError(['rules' => 1], 'rules is not array');
         // 端口格式
         $this->assertCheckFirewallRuleError(['dest_port' => '65536'], 'Invalid dest_port');
         $this->assertCheckFirewallRuleError(['dest_port' => '0-1'], 'Invalid dest_port');
@@ -63,9 +63,12 @@ class UtilsTest extends TestCase
 
         $this->assertCheckFirewallRuleError(['target' => 'X'], 'Invalid target');
 
-        $this->assertCheckFirewallRuleError(['rules' => ['test' => '']], 'rules.test not array');
+        $this->assertCheckFirewallRuleError(['rules' => ['test' => '']], 'rules.test is not array');
 
-        $this->assertCheckFirewallRuleError(['rules' => ['test' => ['target' => 1]]], 'rules.test.target not string');
+        $this->assertCheckFirewallRuleError(
+            ['rules' => ['test' => ['target' => 1]]],
+            'rules.test.target is not string',
+        );
 
         $this->assertCheckFirewallRuleError(['rules' => ['test' => ['target' => 'x']]], 'Invalid rules.test.target');
 

@@ -52,7 +52,7 @@ function checkFirewallRule(array $config): void
     foreach ($config as $key => $value) {
         $type = $keyToType[$key] ?? null;
         if ($type && !call_user_func("is_$type", $value)) {
-            throw new InvalidArgumentException("$key not $type");
+            throw new InvalidArgumentException("$key is not $type");
         }
         if (!$checkValue($key, $value)) {
             throw new InvalidArgumentException("Invalid $key");
@@ -61,12 +61,12 @@ function checkFirewallRule(array $config): void
     $rules = $config['rules'] ?? [];
     foreach ($rules as $index => $item) {
         if (!is_array($item)) {
-            throw new InvalidArgumentException("rules.$index not array");
+            throw new InvalidArgumentException("rules.$index is not array");
         }
         foreach ($item as $key => $value) {
             $type = $keyToType[$key] ?? null;
             if ($type && !call_user_func("is_$type", $value)) {
-                throw new InvalidArgumentException("rules.$index.$key not $type");
+                throw new InvalidArgumentException("rules.$index.$key is not $type");
             }
             if (!$checkValue($key, $value)) {
                 throw new InvalidArgumentException("Invalid rules.$index.$key");
