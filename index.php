@@ -247,6 +247,7 @@ if ($ruleName) {
         $logger->error('Invalid firewall rules: '.$ex->getMessage());
         exitMessage("Invalid firewall rules: $ruleName", 500, 1);
     }
+    unset($firewallRule['dest_port']);
     $firewallRule['rules'] ??= [];
     // 为每个规则设置 dest_ip 和 family
     $firewallRule['rules'] = array_map(
