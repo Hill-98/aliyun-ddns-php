@@ -16,6 +16,8 @@ use Monolog\Handler\SwiftMailerHandler;
 use Monolog\Logger;
 use Monolog\Processor\IntrospectionProcessor;
 
+const LOG_PATH = __DIR__.'/log';
+
 #[JetBrains\PhpStorm\NoReturn]
 function exitMessage(
     string $message,
@@ -38,6 +40,10 @@ if (!file_exists(__DIR__.'/config.php')) {
 
 require __DIR__.'/vendor/autoload.php';
 require __DIR__.'/config.php';
+
+if (!file_exists(LOG_PATH) && !(@mkdir(LOG_PATH) && is_dir(LOG_PATH))) {
+    throw new RuntimeException('Failed to create log directory');
+}
 
 $logger = new Logger(
     'AliDDNS',
