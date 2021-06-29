@@ -1,14 +1,13 @@
 # aliyun-ddns-php
 
-<a href="https://github.com/Hill-98/aliyun-ddns-php/blob/master/LICENSE"><img alt="MIT" src="https://img.shields.io/github/license/Hill-98/aliyun-ddns-php"></a>
-<a href="https://packagist.org/packages/hill-98/aliyun-ddns-php"><img alt="PHP Version" src="https://img.shields.io/packagist/php-v/hill-98/aliyun-ddns-php"></a>
 <a href="https://github.com/Hill-98/aliyun-ddns-php/releases/latest"><img alt="Github Releases" src="https://img.shields.io/github/v/release/Hill-98/aliyun-ddns-php"></a>
 <a href="https://github.com/Hill-98/aliyun-ddns-php/releases"><img alt="Github Releases Download" src="https://img.shields.io/github/downloads/Hill-98/aliyun-ddns-php/total"></a>
-
+<a href="https://packagist.org/packages/hill-98/aliyun-ddns-php"><img alt="PHP Version" src="https://img.shields.io/packagist/php-v/hill-98/aliyun-ddns-php"></a>
+<a href="https://github.com/Hill-98/aliyun-ddns-php/blob/master/LICENSE"><img alt="MIT" src="https://img.shields.io/github/license/Hill-98/aliyun-ddns-php"></a>
 
 [更新日志](https://github.com/Hill-98/aliyun-ddns-php/blob/master/Changelog.md)
 
-如果你在寻找 1.0.0 版本之前的文档，请访问 [Wiki](https://github.com/Hill-98/aliyun-ddns-php/wiki) 。
+如果你在寻找 2.0.0 版本之前的文档，请访问 [Wiki](https://github.com/Hill-98/aliyun-ddns-php/wiki) 。
 
 ## 简介
 
@@ -40,7 +39,7 @@
 
 支持 GET (POST) 和 CLI 方式运行
 
-自动执行：[文档](https://github.com/Hill-98/aliyun-ddns-php/blob/master/docs/Automation.md)
+OpenWrt 触发执行：[文档](https://github.com/Hill-98/aliyun-ddns-php/blob/master/docs/Automation.md)
 
 参数名       | 必要 |        说明      |     备注
 ------------|:---:|------------------|---------------
@@ -59,8 +58,6 @@ rule-name   |  ×  | 防火墙规则名称    | 自动更新路由器/网关的�
 **GET:** `http://aliddns.localhost/index.php?domain=example.com&name=test&ip=ipv6`
 
 **CLI:** `php /opt/AliDDNS/index.php --domain example.com --name test --ip ipv6`
-
-
 
 ## 贡献
 
