@@ -2,7 +2,7 @@
     "name": "hill-98/aliyun-ddns-php",
     "description": "Alibaba Cloud DDNS for PHP",
     "type": "project",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "license": "GPL-3.0",
     "authors": [
         {
