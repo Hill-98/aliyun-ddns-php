@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-function checkFirewallRule(array $config): void
+function check_firewall_rule(array $config): void
 {
     static $keyToType = [
         'proto' => 'string',
@@ -82,7 +82,7 @@ function checkFirewallRule(array $config): void
  * @return null|string
  * @throws Net_DNS2_Exception
  */
-function getPublicIP(bool $ipv4 = false): ?string
+function get_public_ip(bool $ipv4 = false): ?string
 {
     $queryType = $ipv4 ? 'A' : 'AAAA';
     $nameservers = $ipv4

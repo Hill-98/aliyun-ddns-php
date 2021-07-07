@@ -119,7 +119,7 @@ if (filter_var($fullDomain, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME) !== $f
 
 if ($ip === 'ipv4' || $ip === 'ipv6') {
     try {
-        $params['value'] = $ip = getPublicIP($ip === 'ipv4');
+        $params['value'] = $ip = get_public_ip($ip === 'ipv4');
     } catch (Net_DNS2_Exception $e) {
         exitMessage('Unable get public IP', 500, 1, Logger::ERROR);
     }
@@ -248,7 +248,7 @@ if ($ruleName) {
         exitMessage("Cannot find firewall rules: $ruleName", 500, 1, Logger::WARNING);
     }
     try {
-        checkFirewallRule($firewallRule);
+        check_firewall_rule($firewallRule);
     } catch (InvalidArgumentException $ex) {
         $logger->error('Invalid firewall rules: '.$ex->getMessage());
         exitMessage("Invalid firewall rules: $ruleName", 500, 1);

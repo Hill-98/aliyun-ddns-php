@@ -11,7 +11,7 @@ class UtilsTest extends TestCase
     private function assertCheckFirewallRuleError(array $config, string $exMessage): void
     {
         try {
-            checkFirewallRule($config);
+            check_firewall_rule($config);
             $this->assertTrue(false);
         } catch (\InvalidArgumentException $ex) {
             $this->assertEquals($exMessage, $ex->getMessage());
@@ -26,9 +26,9 @@ class UtilsTest extends TestCase
      */
     public function testGetPublicIP(): void
     {
-        $ip = getPublicIP(true);
+        $ip = get_public_ip(true);
         $this->assertNotNull($ip);
-        $ip = getPublicIP(false);
+        $ip = get_public_ip(false);
         $this->assertNotNull($ip);
     }
 
@@ -84,7 +84,7 @@ class UtilsTest extends TestCase
         ];
         $config['rules'] = [];
         $config['rules']['test'] = array_merge($config, ['dest_port' => '555']);
-        checkFirewallRule($config);
+        check_firewall_rule($config);
         $this->assertTrue(true);
     }
 }
