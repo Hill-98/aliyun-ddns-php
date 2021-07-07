@@ -14,13 +14,13 @@
         "php": "^8.0",
         "alibabacloud/alidns": "^1.8",
         "guzzlehttp/guzzle": "^7.3",
-        "hill-98/php-cs-fixer-config": "^1.1",
         "monolog/monolog": "^2.2",
         "pear/net_dns2": "^1.5",
         "swiftmailer/swiftmailer": "^6.2"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.0",
+        "hill-98/php-cs-fixer-config": "^1.1",
         "phpunit/php-invoker": "^3.1",
         "phpunit/phpunit": "^9.5",
         "roave/security-advisories": "dev-latest"
