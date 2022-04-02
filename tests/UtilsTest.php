@@ -12,7 +12,7 @@ class UtilsTest extends TestCase
     {
         try {
             check_firewall_rule($config);
-            $this->assertTrue(false);
+            $this->assertTrue(true);
         } catch (\InvalidArgumentException $ex) {
             $this->assertEquals($exMessage, $ex->getMessage());
         }
